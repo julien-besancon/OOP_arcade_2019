@@ -23,14 +23,14 @@ LIB= -fPIC -shared
 
 CPPFLAGS	= -g3
 
-GRAPHLIB=lib_arcade_sfml
+GRAPHLIB=lib_arcade_sfml lib_arcade_ncurse
 
 GAMELIB=lib_arcade_nibbler
 
 all:	core games graphicals
 
 core:
-	$(CC) -o $(NAME) $(SRC) -ldl
+	$(CC) -o $(NAME) $(SRC) -ldl -g3
 
 games: $(GAMELIB)
 
