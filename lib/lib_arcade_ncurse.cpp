@@ -4,7 +4,10 @@
 ** File description:
 ** lib_arcade_ncurse
 */
+
 #include "../src/Core.hpp"
+#include <ncurses.h>
+#include <curses.h>
 
 class ncurse : public IGraph
 {
@@ -33,6 +36,20 @@ void ncurse::display()
 
 char ncurse::get_input() 
 {
+    switch (com) { // com represente le int qui doit getch
+        case KEY_UP :
+        break;
+        case KEY_RIGHT :
+        break;
+        case KEY_LEFT : 
+        break;
+        case KEY_DOWN :
+        break;
+        case 80 : // P
+        break;
+        case 112 : //p
+        break;
+    }
 }
 
 char ncurse::menu() 
