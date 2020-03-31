@@ -15,10 +15,12 @@ class ncurse : public IGraph
         ncurse();
         virtual ~ncurse();
 
+        void init();
         void display();
         char get_input();
         char menu();
         char pause();
+        void end();
 };
 
 extern "C" IGraph *create() {
@@ -31,6 +33,14 @@ ncurse::ncurse()
 }
 
 ncurse::~ncurse()
+{
+}
+
+void ncurse::init()
+{
+}
+
+void ncurse::end()
 {
 }
 
@@ -57,13 +67,11 @@ char ncurse::get_input()
         break;
     }
 }
-
 int menu_action()
 {
     //getch();
 
 
-    std::cout << "coco";
 
 
 

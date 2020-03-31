@@ -32,7 +32,9 @@ int main(int ac, char **av)
     }
     Core core(av[1]);
 
+    core.graph->init();
     launch_game(core);
+    core.graph->end();
     dlclose(core._game_handle);
     dlclose(core._graph_handle);
 }

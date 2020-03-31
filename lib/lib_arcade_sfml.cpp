@@ -12,10 +12,12 @@ class sfml : public IGraph
         sfml();
         virtual ~sfml();
         
+        void init();
         void display();
         char get_input();
         char menu();
         char pause();
+        void end();
 };
 
 sfml::sfml()
@@ -24,7 +26,14 @@ sfml::sfml()
 
 sfml::~sfml()
 {
-    std::cout << "FIN sfml" << std::endl;
+}
+
+void sfml::init()
+{
+}
+
+void sfml::end()
+{
 }
 
 void sfml::display() 

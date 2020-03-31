@@ -16,10 +16,12 @@ class IGraph {
     public:
         virtual ~IGraph(){};
 
+        virtual void init() = 0;
         virtual void display() = 0;
         virtual char get_input() = 0;
         virtual char menu() = 0;
         virtual char pause() = 0;
+        virtual void end() = 0;
     protected:
     private:
 };
