@@ -21,6 +21,11 @@ class ncurse : public IGraph
         char pause();
 };
 
+extern "C" IGraph *create() {
+    ncurse *graph = new ncurse();
+    return graph;
+}
+
 ncurse::ncurse()
 {
 }
@@ -55,10 +60,10 @@ char ncurse::get_input()
 
 int menu_action()
 {
-    getch();
+    //getch();
 
 
-
+    std::cout << "coco";
 
 
 
@@ -80,7 +85,7 @@ char ncurse::menu()
 
 int pause_action()
 {
-    getch();
+    //getch();
 
 
 
@@ -100,10 +105,4 @@ char ncurse::pause()
     if (i != 0)
         return i;
     display_pause();
-}
-
-
-extern "C" IGraph *create() {
-    ncurse *graph = new ncurse();
-    return graph;
 }

@@ -38,14 +38,13 @@ enum input {
     prev_lib = '-',
     next_game = 'n',
     prev_game = 'b',
-    exit = 'x'
 };
 
 char Nibbler::game_loop(Core &core)
 {
     int i = 0;
     char input = 'u';
-    game_state == MENU;
+    //game_state = MENU;
     while (1) {
         switch (game_state) {
         case GAME:
@@ -80,13 +79,13 @@ char Nibbler::game_loop(Core &core)
         }
 
 
-        //std::cout << "--> " << i++ << std::endl;
+        std::cout << "--> " << i++ << std::endl;
         //core.next_graph();
 
 
         if (input == 'r' || input == 'n' || input == 'b' || input == 'x')
             return input;
-        sleep(1);
+        //sleep(1);
     }
 }
 
