@@ -17,7 +17,7 @@ void launch_game(Core &core)
         core.next_game();
         launch_game(core);
     }
-    if (c == 'p') {
+    if (c == 'b') {
         core.prev_game();
         launch_game(core);
     }

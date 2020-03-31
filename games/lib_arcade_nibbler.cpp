@@ -17,7 +17,7 @@ class Nibbler : public IGame
         void pause() override;
         char game_loop(Core &core) override;
         void move(char move) override;
-        //state game_state = MENU;
+        state game_state = MENU;
 };
 
 Nibbler::Nibbler()
@@ -44,6 +44,7 @@ char Nibbler::game_loop(Core &core)
 {
     int i = 0;
     char input = 'u';
+    game_state == MENU;
     while (1) {
         switch (game_state) {
         case GAME:
@@ -77,12 +78,11 @@ char Nibbler::game_loop(Core &core)
             input = 'u';
         }
 
+        //std::cout << "--> " << i++ << std::endl;
+        //core.next_graph();
 
-        std::cout << "--> " << i++ << std::endl;
-        core.next_graph();
 
-
-        if (input == 'r' || input == 'n' || input == 'b')
+        if (input == 'r' || input == 'n' || input == 'b' || input == 'x')
             return input;
         sleep(1);
     }
