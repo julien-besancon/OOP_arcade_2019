@@ -1,51 +1,16 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_arcade_2019 [WSL: Ubuntu]
+** File description:
+** main
+*/
 #include <dlfcn.h>
 #include <stdio.h>
-#include "Core.hpp"
+#include "Core.cpp"
 
-
-IGame *init_game(std::string lib)
+void launch_game(Core &core)
 {
-    void* handle = dlopen(lib.c_str(), RTLD_LAZY);
-    if (!handle) {
-        std::cerr << "Cannot open library: " << dlerror() << std::endl;
-        exit (84);
-    }
-    IGame *(*create) (void);
-    *(void **) (&create) = dlsym(handle, "create");
-    const char *dlsym_error = dlerror();
-    if (dlsym_error) {
-        std::cerr << "Cannot load symbol" << dlsym_error << std::endl;
-        dlclose(handle);
-        exit (84);
-    }
-    IGame *game = create();
-    //dlclose(handle);
-    return game;
-}
-
-IGraph *init_graph(std::string lib)
-{
-    void* handle = dlopen(lib.c_str(), RTLD_LAZY);
-    if (!handle) {
-        std::cerr << "Cannot open library: " << dlerror() << std::endl;
-        exit (84);
-    }
-    IGraph *(*create) (void);
-    *(void **) (&create) = dlsym(handle, "create");
-    const char *dlsym_error = dlerror();
-    if (dlsym_error) {
-        std::cerr << "Cannot load symbol" << dlsym_error << std::endl;
-        dlclose(handle);
-        exit (84);
-    }
-    IGraph *graph = create();
-    //dlclose(handle);
-    return graph;
-}
-
-void launch_game(Core core)
-{
-    char c = core.game->game_loop(core.graph);
+    char c = core.game->game_loop(core);
     if (c == 'r')
         launch_game(core);
     if (c == 'n') {
@@ -60,10 +25,14 @@ void launch_game(Core core)
 
 int main(int ac, char **av)
 {
-    Core core;
-    core.game = init_game(core.game_lib_name[0]);
-    core.graph = init_graph(core.graph_lib_name[ac - 1]);
+    if (ac != 2) {
+        std::cerr << "Incorrect number of arguments !" << std::endl
+        << "Usage : ./arcade [Path to Dynamic library]" << std::endl;
+        return (84);
+    }
+    Core core(av[1]);
+
     launch_game(core);
-    
-    //graph->display();
+    dlclose(core._game_handle);
+    dlclose(core._graph_handle);
 }

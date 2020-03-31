@@ -1,27 +1,32 @@
+/*
+** EPITECH PROJECT, 2020
+** OOP_arcade_2019 [WSL: Ubuntu]
+** File description:
+** lib_arcade_nibbler
+*/
 #include <iostream>
-#include "../src/IGraph.hpp"
-#include "../src/IGame.hpp"
 #include <unistd.h>
+#include "../src/Core.hpp"
 
 class nibbler : public IGame
 {
     public:
         void pause();
-        char game_loop(IGraph *graph);
+        char game_loop(Core &core);
         void move(char move);
 };
 
-char nibbler::game_loop(IGraph *graph)
+char nibbler::game_loop(Core &core)
 {
+    int i = 0;
     while (1) {
-        graph->get_input();
-        move('s');
-
-
-
-
-        graph->display();
+        //std::cout << core.graph_lib_nb << std::endl;
+        //core.graph->display();
+        core.graph->display();
+        std::cout << "--> " << i++ << std::endl;
+        core.next_graph();
         sleep(1);
+        //return'x';
     }
 }
 

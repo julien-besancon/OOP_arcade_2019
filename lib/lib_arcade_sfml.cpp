@@ -1,5 +1,10 @@
-#include <iostream>
-#include "../src/IGraph.hpp"
+/*
+** EPITECH PROJECT, 2020
+** OOP_arcade_2019 [WSL: Ubuntu]
+** File description:
+** lib_arcade_sfml
+*/
+#include "../src/Core.hpp"
 
 class sfml : public IGraph
 {

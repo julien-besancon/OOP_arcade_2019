@@ -4,13 +4,99 @@
 ** File description:
 ** Core
 */
-
+#include <dlfcn.h>
+#include <stdio.h>
 #include "Core.hpp"
 
-Core::Core()
+Core::Core(std::string str)
 {
+    int i = 0;
+    for (; str.compare(graph_lib_name[i]) ; i++);
+    /* if (i >= graph_lib_name.size()) {
+        std::cerr << "Wrong lib name !" << std::endl;
+        exit (84);
+    }*/
+    graph_lib_nb = i;
+    set_game_lib();
+    set_graph_lib();
 }
 
 Core::~Core()
 {
+}
+
+void Core::set_game_lib()
+{
+    if (_game_handle)
+        dlclose(_game_handle);
+    _game_handle = dlopen(game_lib_name[game_lib_nb].c_str(), RTLD_LAZY);
+    if (!_game_handle) {
+        std::cerr << "Cannot open library: " << dlerror() << std::endl;
+        exit (84);
+    }
+    IGame *(*create) (void);
+    *(void **) (&create) = dlsym(_game_handle, "create");
+    const char *dlsym_error = dlerror();
+    if (dlsym_error) {
+        std::cerr << "Cannot load symbol" << dlsym_error << std::endl;
+        dlclose(_game_handle);
+        exit (84);
+    }
+    game = create();
+}
+
+void Core::set_graph_lib()
+{
+    if (_graph_handle)
+        dlclose(_graph_handle);
+    _graph_handle = dlopen(graph_lib_name[graph_lib_nb].c_str(), RTLD_LAZY);
+    if (!_graph_handle) {
+        std::cerr << "Cannot open library: " << dlerror() << std::endl;
+        exit (84);
+    }
+    IGraph *(*create) (void);
+    *(void **) (&create) = dlsym(_graph_handle, "create");
+    const char *dlsym_error = dlerror();
+    if (dlsym_error) {
+        std::cerr << "Cannot load symbol" << dlsym_error << std::endl;
+        dlclose(_graph_handle);
+        exit (84);
+    }
+    graph = create();
+}
+
+void Core::next_game()
+{
+    if ((game_lib_nb + 1) == game_lib_name.size())
+        game_lib_nb = 0;
+    else
+        game_lib_nb++;
+    set_game_lib();
+}
+
+void Core::prev_game()
+{
+    if (game_lib_nb == 0)
+        game_lib_nb = game_lib_name.size() - 1;
+    else
+        game_lib_nb--;
+    set_game_lib();
+}
+
+void Core::next_graph()
+{
+    if ((graph_lib_nb + 1) == graph_lib_name.size())
+        graph_lib_nb = 0;
+    else
+        graph_lib_nb++;
+    set_graph_lib();
+}
+
+void Core::prev_graph()
+{
+    if (graph_lib_nb == 0)
+        graph_lib_nb = graph_lib_name.size() - 1;
+    else
+        graph_lib_nb--;
+    set_graph_lib();
 }
