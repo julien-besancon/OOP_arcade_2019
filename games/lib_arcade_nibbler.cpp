@@ -28,35 +28,74 @@ Nibbler::~Nibbler()
 {
 }
 
+enum input {
+    undefinied = 'u',
+    play = 'g',
+    make_pause = 'p',
+    restart = 'r',
+    back_to_menu = 'm',
+    next_lib = '+',
+    prev_lib = '-',
+    next_game = 'n',
+    prev_game = 'b'
+};
+
 char Nibbler::game_loop(Core &core)
 {
     int i = 0;
     char input = 'u';
     while (1) {
-        input = core.graph->get_input();
-        move(input);
+        switch (game_state) {
+        case GAME:
+            input = core.graph->get_input();
+            if (input == 'p')
+                game_state = PAUSE;
+            move(input);
+            core.graph->display();
+            break;
+
+        case PAUSE:
+            input = core.graph->pause();
+            if (input == 'm')
+                game_state = MENU;
+            break;
+
+        case MENU:
+            input = core.graph->menu();
+            break;
+        }
+        if (input == 'g') {
+            game_state = GAME;
+            input = 'u';
+        }
+        if (input == '-') {
+            core.next_graph();
+            input = 'u';
+        }
+        if (input == '+') {
+            core.prev_graph();
+            input = 'u';
+        }
 
 
-
-
-
-        core.graph->display();
         std::cout << "--> " << i++ << std::endl;
         core.next_graph();
-/*         if (game_state == GAME)
-            core.graph->display();
-        else if (game_state == PAUSE)
-            pause();
-        else if (game_state == MENU)
-            input = core.graph->menu();
-        if (input == 'r' || input == 'n' || input == 'p')
-            return input; */
+
+
+        if (input == 'r' || input == 'n' || input == 'b')
+            return input;
         sleep(1);
     }
 }
 
 void Nibbler::pause()      // appel la fonction menu() de IGraph
 {
+}
+
+void is_eaten()
+{
+    //if()
+    //    eat();
 }
 
 void Nibbler::move(char move)
@@ -78,6 +117,7 @@ void Nibbler::move(char move)
         /* code */
         break;
     }
+    is_eaten();
 }
 
 extern "C" IGame *create() {

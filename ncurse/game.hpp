@@ -34,7 +34,6 @@ class game
 public:
     game(size_t ymax, size_t xmax);
     ~game();
-    
 private:
     unsigned int _ymax;
     unsigned int _xmax;

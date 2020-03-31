@@ -15,6 +15,7 @@ class ncurse : public IGraph
         void display();
         char get_input();
         char menu();
+        char pause();
 };
 
 ncurse::ncurse()
@@ -37,6 +38,11 @@ char ncurse::get_input()
 char ncurse::menu() 
 {
 }
+
+char ncurse::pause() 
+{
+}
+
 
 extern "C" IGraph *create() {
     ncurse *graph = new ncurse();

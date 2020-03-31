@@ -19,6 +19,7 @@ class IGraph {
         virtual void display() = 0;
         virtual char get_input() = 0;
         virtual char menu() = 0;
+        virtual char pause() = 0;
     protected:
     private:
 };

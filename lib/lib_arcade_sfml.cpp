@@ -15,6 +15,7 @@ class sfml : public IGraph
         void display();
         char get_input();
         char menu();
+        char pause();
 };
 
 sfml::sfml()
@@ -36,6 +37,10 @@ char sfml::get_input()
 }
 
 char sfml::menu() 
+{
+}
+
+char sfml::pause() 
 {
 }
 
