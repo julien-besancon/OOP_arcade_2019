@@ -8,21 +8,33 @@
 
 class ncurse : public IGraph
 {
-    void display() ;
-    void get_input();
-    void menu();
+    public:
+        ncurse();
+        virtual ~ncurse();
+
+        void display();
+        char get_input();
+        char menu();
 };
+
+ncurse::ncurse()
+{
+}
+
+ncurse::~ncurse()
+{
+}
 
 void ncurse::display() 
 {
     std::cout << "NCURSE" << std::endl;
 }
 
-void ncurse::get_input() 
+char ncurse::get_input() 
 {
 }
 
-void ncurse::menu() 
+char ncurse::menu() 
 {
 }
 

@@ -6,7 +6,7 @@
 */
 #include <dlfcn.h>
 #include <stdio.h>
-#include "Core.cpp"
+#include "Core.hpp"
 
 void launch_game(Core &core)
 {

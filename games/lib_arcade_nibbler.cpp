@@ -8,39 +8,79 @@
 #include <unistd.h>
 #include "../src/Core.hpp"
 
-class nibbler : public IGame
+class Nibbler : public IGame
 {
     public:
-        void pause();
-        char game_loop(Core &core);
-        void move(char move);
+        Nibbler();
+        virtual ~Nibbler();
+
+        void pause() override;
+        char game_loop(Core &core) override;
+        void move(char move) override;
+        //state game_state = MENU;
 };
 
-char nibbler::game_loop(Core &core)
+Nibbler::Nibbler()
+{
+}
+
+Nibbler::~Nibbler()
+{
+}
+
+char Nibbler::game_loop(Core &core)
 {
     int i = 0;
+    char input = 'u';
     while (1) {
-        //std::cout << core.graph_lib_nb << std::endl;
-        //core.graph->display();
+        input = core.graph->get_input();
+        move(input);
+
+
+
+
+
         core.graph->display();
         std::cout << "--> " << i++ << std::endl;
         core.next_graph();
+/*         if (game_state == GAME)
+            core.graph->display();
+        else if (game_state == PAUSE)
+            pause();
+        else if (game_state == MENU)
+            input = core.graph->menu();
+        if (input == 'r' || input == 'n' || input == 'p')
+            return input; */
         sleep(1);
-        //return'x';
     }
 }
 
-void nibbler::pause()      // appel la fonction menu() de IGraph
+void Nibbler::pause()      // appel la fonction menu() de IGraph
 {
-    std::cout << "pause" << std::endl;
 }
 
-void nibbler::move(char move)
+void Nibbler::move(char move)
 {
-
+    switch (move) {
+    case 'u':
+        /* code */
+        break;
+    case 'd':
+        /* code */
+        break;
+    case 'l':
+        /* code */
+        break;
+    case 'r':
+        /* code */
+        break;
+    default:
+        /* code */
+        break;
+    }
 }
 
 extern "C" IGame *create() {
-    nibbler *game = new nibbler();
+    Nibbler *game = new Nibbler();
     return game;
 }

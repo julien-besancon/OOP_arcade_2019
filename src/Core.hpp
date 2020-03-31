@@ -14,33 +14,56 @@ class Core;
 
 class IGraph {
     public:
+        virtual ~IGraph(){};
+
         virtual void display() = 0;
-        virtual void get_input() = 0;
-        virtual void menu() = 0;
+        virtual char get_input() = 0;
+        virtual char menu() = 0;
     protected:
     private:
+};
+
+enum state {
+    GAME,
+    PAUSE,
+    MENU
 };
 
 class IGame {
     public:
+        virtual ~IGame(){};
+
         virtual char game_loop(Core &core) = 0;
         virtual void move(char move) = 0;
         virtual void pause() = 0;
     protected:
+        state game_state;
     private:
 };
 
-class Core {
+class ICore {
     public:
-        Core(std::string);
+        virtual ~ICore(){};
+
+        virtual void set_game_lib()= 0;
+        virtual void set_graph_lib()= 0;
+        virtual void next_game() = 0;
+        virtual void prev_game()= 0;
+        virtual void next_graph()= 0;
+        virtual void prev_graph()= 0;
+};
+
+class Core : public ICore {
+    public:
+        Core(std::string str);
         ~Core();
 
-        void set_game_lib();
-        void set_graph_lib();
-        void next_game();
-        void prev_game();
-        void next_graph();
-        void prev_graph();
+        void set_game_lib() override;
+        void set_graph_lib() override;
+        void next_game() override;
+        void prev_game() override;
+        void next_graph() override;
+        void prev_graph() override;
 
         IGame *game;
         IGraph *graph;

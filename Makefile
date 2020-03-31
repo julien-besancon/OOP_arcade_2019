@@ -6,10 +6,7 @@
 ##
 
 SRC			=	src/main.cpp			\
-
-GAMELIB		=	games/hello.cpp			\
-
-GRAPHLIB	=	lib/coco.cpp			\
+				src/Core.cpp			\
 
 OBJ	=	$(SRC:.cpp=.o)
 
