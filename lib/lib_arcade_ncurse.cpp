@@ -36,6 +36,7 @@ void ncurse::display()
 
 char ncurse::get_input() 
 {
+    int com;
     switch (com) { // com represente le int qui doit getch
         case KEY_UP :
         break;
@@ -52,12 +53,53 @@ char ncurse::get_input()
     }
 }
 
+int menu_action()
+{
+    getch();
+
+
+
+
+
+
+    return (0);
+}
+
+void display_menu()
+{
+
+}
+
 char ncurse::menu() 
 {
+    int i = menu_action();
+    if (i != 0)
+        return i;
+    display_menu();
+}
+
+int pause_action()
+{
+    getch();
+
+
+
+
+
+
+    return (0);
+}
+void display_pause()
+{
+
 }
 
 char ncurse::pause() 
 {
+    int i = pause_action();
+    if (i != 0)
+        return i;
+    display_pause();
 }
 
 

@@ -21,7 +21,6 @@ Core::Core(std::string str)
     set_graph_lib();
 }
 
-Core::~Core()
 {
 }
 

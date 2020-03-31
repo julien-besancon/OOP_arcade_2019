@@ -37,7 +37,8 @@ enum input {
     next_lib = '+',
     prev_lib = '-',
     next_game = 'n',
-    prev_game = 'b'
+    prev_game = 'b',
+    exit = 'x'
 };
 
 char Nibbler::game_loop(Core &core)
@@ -77,6 +78,7 @@ char Nibbler::game_loop(Core &core)
             core.prev_graph();
             input = 'u';
         }
+
 
         //std::cout << "--> " << i++ << std::endl;
         //core.next_graph();
