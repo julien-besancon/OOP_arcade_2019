@@ -76,15 +76,16 @@ char ncurse::get_input()
 
 int menu_action()
 {
-    int i = 1;
+    static int i = 1;
     int command = getch();
 
     clear();
     switch (command) {
-    case KEY_UP: i--;
+    case 65 : i--;
         break;
-    case KEY_DOWN: i++;
+    case 66 : i++;
         break;
+    case 10 : return (i);
     }
     if (i < 1)
         i = 1;
@@ -104,7 +105,6 @@ int menu_action()
         mvprintw(25, 25, "-->");
         break;
     }
-    return (0);
 }
 
 void display_menu()
@@ -126,14 +126,15 @@ char ncurse::menu()
 
 int pause_action()
 {
-    int i = 1;
+    static int i = 1;
     int command = getch();
 
     switch (command) {
-    case KEY_UP: i--;
+    case 65 : i--;
         break;
-    case KEY_DOWN: i++;
+    case 66 : i++;
         break;
+    case 10 : return (i);
     }
     if (i < 1)
         i = 1;
