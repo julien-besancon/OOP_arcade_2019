@@ -56,8 +56,9 @@ void ncurse::display()
 
 char ncurse::get_input()
 {
-    int com;
-    switch (com) { // com represente le int qui doit getch
+    int command = getch();
+
+    switch (command) {
         case KEY_UP :
         break;
         case KEY_RIGHT :
@@ -66,10 +67,8 @@ char ncurse::get_input()
         break;
         case KEY_DOWN :
         break;
-        case 80 : // P
-        break;
-        case 112 : //p
-        break;
+        case 80 : return 'p';
+        case 112 : return 'p';
     }
 }
 
@@ -77,7 +76,6 @@ int menu_action()
 {
     static int i = 1;
     int command = getch();
-
 
     clear();
     switch (command) {
@@ -87,12 +85,10 @@ int menu_action()
         break;
     case 10 : return (i);
     }
-    mvprintw(2, 2, "%d", i);
     if (i < 1)
         i = 1;
     if (i > 4)
         i = 4;
-    mvprintw(4, 4, "%d", i);
     switch (i) {
     case 1:
         mvprintw(10, 25, "-->");
@@ -122,6 +118,12 @@ char ncurse::menu()
     display_menu();
     int i = menu_action();
     if (i != 0)
+        switch (i) {
+            case 1: return 'g';
+            case 2: return 'n';
+            case 3: return 'b';
+            case 4: return 'x';
+        }
         return i;
     refresh();
 }
@@ -141,22 +143,25 @@ int pause_action()
     }
     if (i < 1)
         i = 1;
-    if (i > 5)
-        i = 5;
+    if (i > 6)
+        i = 6;
     switch (i) {
     case 1:
-        mvprintw(10, 25, "-->");
+        mvprintw(5, 25, "-->");
         break;
     case 2:
-        mvprintw(15, 25, "-->");
+        mvprintw(10, 25, "-->");
         break;
     case 3:
-        mvprintw(20, 25, "-->");
+        mvprintw(15, 25, "-->");
         break;
     case 4:
-        mvprintw(25, 25, "-->");
+        mvprintw(20, 25, "-->");
         break;
     case 5:
+        mvprintw(25, 25, "-->");
+        break;
+    case 6:
         mvprintw(30, 25, "-->");
         break;
     }
@@ -165,11 +170,12 @@ int pause_action()
 
 void display_pause()
 {
-    mvprintw(10, 30, "RESUME");
-    mvprintw(15, 30, "RESTART");
-    mvprintw(20, 30, "BACK TO MENU");
-    mvprintw(25, 30, "NEXT LIB");
-    mvprintw(30, 30, "PREVIOUS LIB");
+    mvprintw(5, 30, "RESUME");
+    mvprintw(10, 30, "RESTART");
+    mvprintw(15, 30, "BACK TO MENU");
+    mvprintw(20, 30, "NEXT LIB");
+    mvprintw(25, 30, "PREVIOUS LIB");
+    mvprintw(30, 30, "EXIT");
 }
 
 char ncurse::pause()
@@ -177,6 +183,13 @@ char ncurse::pause()
     display_pause();
     int i = pause_action();
     if (i != 0)
-        return i;
+        switch (i) {
+            case 1: return 'g';
+            case 2: return 'r';
+            case 3: return 'm';
+            case 4: return '+';
+            case 5: return '-';
+            case 6: return 'x';
+        }
     refresh();
 }

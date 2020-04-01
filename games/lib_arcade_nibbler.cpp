@@ -44,6 +44,7 @@ char Nibbler::game_loop(Core &core)
 {
     int i = 0;
     char input = 'u';
+
     while (1) {
         switch (game_state) {
         case GAME:
@@ -81,8 +82,11 @@ char Nibbler::game_loop(Core &core)
         //std::cout << "--> " << i++ << std::endl;
         //core.next_graph();
 
-
-        if (input == 'r' || input == 'n' || input == 'b' || input == 'x')
+        if (input == 'r') {
+            game_state = GAME;
+            return input;
+        }
+        if (input == 'n' || input == 'b' || input == 'x')
             return input;
         //sleep(1);
     }
