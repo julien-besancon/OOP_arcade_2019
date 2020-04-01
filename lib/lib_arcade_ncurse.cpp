@@ -81,10 +81,11 @@ int menu_action()
 
     clear();
     switch (command) {
-    case 65: i--;
+    case 65 : i--;
         break;
-    case 66: i++;
+    case 66 : i++;
         break;
+    case 10 : return (i);
     }
     mvprintw(2, 2, "%d", i);
     if (i < 1)
@@ -106,7 +107,6 @@ int menu_action()
         mvprintw(25, 25, "-->");
         break;
     }
-    return (0);
 }
 
 void display_menu()
@@ -133,10 +133,11 @@ int pause_action()
 
     clear();
     switch (command) {
-    case 65: i--;
+    case 65 : i--;
         break;
-    case 66: i++;
+    case 66 : i++;
         break;
+    case 10 : return (i);
     }
     if (i < 1)
         i = 1;
