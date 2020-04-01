@@ -16,7 +16,7 @@ NAME	=	arcade
 
 RM	=	rm -f
 
-LIB= -fPIC -shared
+LIB= -fPIC -shared -lncurses
 
 CPPFLAGS	= -g3
 
