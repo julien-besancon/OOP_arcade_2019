@@ -79,7 +79,7 @@ char Nibbler::game_loop(Core &core)
         }
 
 
-        std::cout << "--> " << i++ << std::endl;
+        //std::cout << "--> " << i++ << std::endl;
         //core.next_graph();
 
 

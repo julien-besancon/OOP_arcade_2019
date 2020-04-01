@@ -73,7 +73,7 @@ char ncurse::get_input()
 int menu_action()
 {
     int i = 1;
-    int command = getch();
+    int command = 4;//getch();
 
     switch (command) {
     case KEY_UP: i++;
@@ -108,7 +108,7 @@ void display_menu()
     mvprintw(40, 30, "NEXT GAME");
     mvprintw(60, 30, "PREVIOUS GAME");
     mvprintw(80, 30, "EXIT");
-
+    refresh();
 }
 
 char ncurse::menu() 
@@ -122,7 +122,7 @@ char ncurse::menu()
 int pause_action()
 {
     int i = 1;
-    int command = getch();
+    int command = 1;//getch();
 
     switch (command) {
     case KEY_UP: i++;
@@ -160,6 +160,7 @@ void display_pause()
     mvprintw(60, 30, "BACK TO MENU");
     mvprintw(80, 30, "NEXT LIB");
     mvprintw(100, 30, "PREVIOUS LIB");
+    refresh();
 }
 
 char ncurse::pause() 
