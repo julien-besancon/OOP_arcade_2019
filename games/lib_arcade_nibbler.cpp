@@ -44,7 +44,6 @@ char Nibbler::game_loop(Core &core)
 {
     int i = 0;
     char input = 'u';
-    //game_state = MENU;
     while (1) {
         switch (game_state) {
         case GAME:

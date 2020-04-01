@@ -11,7 +11,7 @@ class sfml : public IGraph
     public:
         sfml();
         virtual ~sfml();
-        
+
         void init();
         void display();
         char get_input();
@@ -30,26 +30,28 @@ sfml::~sfml()
 
 void sfml::init()
 {
+    std::cout << "init..." << std::endl;
 }
 
 void sfml::end()
 {
 }
 
-void sfml::display() 
+void sfml::display()
 {
     std::cout << "SFML" << std::endl;
 }
 
-char sfml::get_input() 
+char sfml::get_input()
 {
 }
 
-char sfml::menu() 
+char sfml::menu()
 {
+    std::cout << "menu" << std::endl;
 }
 
-char sfml::pause() 
+char sfml::pause()
 {
 }
 
