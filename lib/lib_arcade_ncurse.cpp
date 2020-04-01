@@ -4,11 +4,10 @@
 ** File description:
 ** lib_arcade_ncurse
 */
-
-#include "../src/Core.hpp"
 #include <ncurses.h>
 #include <curses.h>
 #include <string>
+#include "../src/Core.hpp"
 
 class ncurse : public IGraph
 {
@@ -76,20 +75,23 @@ char ncurse::get_input()
 
 int menu_action()
 {
-    int i = 1;
+    static int i = 1;
     int command = getch();
+
 
     clear();
     switch (command) {
-    case KEY_UP: i--;
+    case 65: i--;
         break;
-    case KEY_DOWN: i++;
+    case 66: i++;
         break;
     }
+    mvprintw(2, 2, "%d", i);
     if (i < 1)
         i = 1;
     if (i > 4)
         i = 4;
+    mvprintw(4, 4, "%d", i);
     switch (i) {
     case 1:
         mvprintw(10, 25, "-->");
@@ -109,7 +111,7 @@ int menu_action()
 
 void display_menu()
 {
-    mvprintw(10, 30, "RESUME");
+    mvprintw(10, 30, "PLAY");
     mvprintw(15, 30, "NEXT GAME");
     mvprintw(20, 30, "PREVIOUS GAME");
     mvprintw(25, 30, "EXIT");
@@ -126,13 +128,14 @@ char ncurse::menu()
 
 int pause_action()
 {
-    int i = 1;
+    static int i = 1;
     int command = getch();
 
+    clear();
     switch (command) {
-    case KEY_UP: i--;
+    case 65: i--;
         break;
-    case KEY_DOWN: i++;
+    case 66: i++;
         break;
     }
     if (i < 1)
@@ -158,6 +161,7 @@ int pause_action()
     }
     return (0);
 }
+
 void display_pause()
 {
     mvprintw(10, 30, "RESUME");
