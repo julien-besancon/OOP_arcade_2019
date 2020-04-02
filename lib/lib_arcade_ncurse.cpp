@@ -62,9 +62,9 @@ void ncurse::display(int game_map[20][40])
             switch (game_map[y][x]) {
                 case 0 : map.push_back(' ');
                 break;
-                case 1 : map.push_back(' ');
+                case 1 : map.push_back('#');
                 break;
-                case 2 : map.push_back('#');
+                case 2 : map.push_back('F');
                 break;
                 case 3 : map.push_back('O');
                 break;
@@ -72,7 +72,9 @@ void ncurse::display(int game_map[20][40])
                 break;
             }
         }
+        map.push_back('\n');
     }
+    printw("%s", map);
     std::cout << map << std::endl;
 }
 
