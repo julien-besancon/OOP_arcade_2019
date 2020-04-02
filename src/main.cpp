@@ -10,14 +10,14 @@
 
 void launch_game(Core &core)
 {
-    char c = core.game->game_loop(core);
-    if (c == 'r')
+    input c = core.game->game_loop(core);
+    if (c == restart)
         launch_game(core);
-    if (c == 'n') {
+    if (c == next_game) {
         core.next_game();
         launch_game(core);
     }
-    if (c == 'b') {
+    if (c == prev_game) {
         core.prev_game();
         launch_game(core);
     }

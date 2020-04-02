@@ -4,6 +4,8 @@
 ** File description:
 ** lib_arcade_ncurse
 */
+#include <iostream>
+#include <unistd.h>
 #include <ncurses.h>
 #include <curses.h>
 #include <string>
@@ -16,11 +18,12 @@ class ncurse : public IGraph
         virtual ~ncurse();
 
         void init();
-        void display();
-        char get_input();
-        char menu();
-        char pause();
+        void display(int game_map[20][40]);
+        input get_input();
+        input menu();
+        input pause();
         void end();
+        WINDOW *win;
 };
 
 extern "C" IGraph *create() {
@@ -38,7 +41,7 @@ ncurse::~ncurse()
 
 void ncurse::init()
 {
-    initscr();
+    win = initscr();
     noecho();
     curs_set(FALSE);
     clear();
@@ -49,26 +52,28 @@ void ncurse::end()
     endwin();
 }
 
-void ncurse::display()
+void ncurse::display(int game_map[20][40])
 {
-    std::cout << "NCURSE" << std::endl;
+    static int i = 0;
+    std::cout << "NCURSE : " << i++ << std::endl;
 }
 
-char ncurse::get_input()
+input ncurse::get_input()
 {
+    nodelay(win, true);
     int command = getch();
 
     switch (command) {
-        case KEY_UP :
+        case 65 /* KEY_UP */ : return up;
         break;
-        case KEY_RIGHT :
+        case 67 /* KEY_RIGHT */ : return right;
         break;
-        case KEY_LEFT :
+        case 68/* KEY_LEFT */ : return left;
         break;
-        case KEY_DOWN :
+        case 66 /* KEY_DOWN */ : return down;
         break;
-        case 80 : return 'p';
-        case 112 : return 'p';
+        case 80 : return make_pause;
+        case 112 : return make_pause;
     }
 }
 
@@ -113,19 +118,20 @@ void display_menu()
     mvprintw(25, 30, "EXIT");
 }
 
-char ncurse::menu()
+input ncurse::menu()
 {
+    nodelay(win, false);
     display_menu();
     int i = menu_action();
     if (i != 0)
         switch (i) {
-            case 1: return 'g';
-            case 2: return 'n';
-            case 3: return 'b';
-            case 4: return 'x';
+            case 1: return play;
+            case 2: return next_game;
+            case 3: return prev_game;
+            case 4: return make_end;
         }
-        return i;
     refresh();
+    return (undefinied);
 }
 
 int pause_action()
@@ -178,18 +184,20 @@ void display_pause()
     mvprintw(30, 30, "EXIT");
 }
 
-char ncurse::pause()
+input ncurse::pause()
 {
+    nodelay(win, false);
     display_pause();
     int i = pause_action();
     if (i != 0)
         switch (i) {
-            case 1: return 'g';
-            case 2: return 'r';
-            case 3: return 'm';
-            case 4: return '+';
-            case 5: return '-';
-            case 6: return 'x';
+            case 1: return play;
+            case 2: return restart;
+            case 3: return back_to_menu;
+            case 4: return next_lib;
+            case 5: return prev_lib;
+            case 6: return make_end;
         }
     refresh();
+    return (undefinied);
 }

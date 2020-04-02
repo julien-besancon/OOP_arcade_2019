@@ -13,10 +13,10 @@ class sfml : public IGraph
         virtual ~sfml();
 
         void init();
-        void display();
-        char get_input();
-        char menu();
-        char pause();
+        void display(int game_map[20][40]);
+        input get_input();
+        input menu();
+        input pause();
         void end();
 };
 
@@ -37,21 +37,21 @@ void sfml::end()
 {
 }
 
-void sfml::display()
+void sfml::display(int game_map[20][40])
 {
     std::cout << "SFML" << std::endl;
 }
 
-char sfml::get_input()
+input sfml::get_input()
 {
 }
 
-char sfml::menu()
+input sfml::menu()
 {
     std::cout << "menu" << std::endl;
 }
 
-char sfml::pause()
+input sfml::pause()
 {
 }
 

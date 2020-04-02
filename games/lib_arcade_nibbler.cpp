@@ -15,8 +15,8 @@ class Nibbler : public IGame
         virtual ~Nibbler();
 
         void pause() override;
-        char game_loop(Core &core) override;
-        void move(char move) override;
+        input game_loop(Core &core) override;
+        void move(input move) override;
         state game_state = MENU;
 };
 
@@ -28,66 +28,54 @@ Nibbler::~Nibbler()
 {
 }
 
-enum input {
-    undefinied = 'u',
-    play = 'g',
-    make_pause = 'p',
-    restart = 'r',
-    back_to_menu = 'm',
-    next_lib = '+',
-    prev_lib = '-',
-    next_game = 'n',
-    prev_game = 'b',
-};
-
-char Nibbler::game_loop(Core &core)
+input Nibbler::game_loop(Core &core)
 {
     int i = 0;
-    char input = 'u';
+    input in = undefinied;
 
     while (1) {
         switch (game_state) {
         case GAME:
-            input = core.graph->get_input();
-            if (input == 'p')
+            in = core.graph->get_input();
+            if (in == make_pause)
                 game_state = PAUSE;
-            move(input);
-            core.graph->display();
+            move(in);
+            //core.graph->display();
             break;
 
         case PAUSE:
-            input = core.graph->pause();
-            if (input == 'm')
+            in = core.graph->pause();
+            if (in == back_to_menu)
                 game_state = MENU;
             break;
 
         case MENU:
-            input = core.graph->menu();
+            in = core.graph->menu();
             break;
         }
-        if (input == 'g') {
+        if (in == play) {
             game_state = GAME;
-            input = 'u';
+            in = undefinied;
         }
-        if (input == '-') {
+        if (in == next_lib) {
             core.next_graph();
-            input = 'u';
+            in = undefinied;
         }
-        if (input == '+') {
+        if (in == prev_lib) {
             core.prev_graph();
-            input = 'u';
+            in = undefinied;
         }
 
 
         //std::cout << "--> " << i++ << std::endl;
         //core.next_graph();
 
-        if (input == 'r') {
+        if (in == restart) {
             game_state = GAME;
-            return input;
+            return in;
         }
-        if (input == 'n' || input == 'b' || input == 'x')
-            return input;
+        if (in == next_game || in == prev_game || in == make_end)
+            return in;
         //sleep(1);
     }
 }
@@ -102,19 +90,19 @@ void is_eaten()
     //    eat();
 }
 
-void Nibbler::move(char move)
+void Nibbler::move(input move)
 {
     switch (move) {
-    case 'u':
+    case up:
         /* code */
         break;
-    case 'd':
+    case down:
         /* code */
         break;
-    case 'l':
+    case left:
         /* code */
         break;
-    case 'r':
+    case right:
         /* code */
         break;
     default:
