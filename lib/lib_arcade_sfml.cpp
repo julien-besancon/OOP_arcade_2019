@@ -25,10 +25,21 @@ class sfml : public IGraph
         void end();
 
         void mesfonction(){};
+
+        sf::Texture texturemenu;
+        sf::Texture texturepause;
+        sf::RenderWindow window;
 };
 
 sfml::sfml()
 {
+    if (!texturemenu.loadFromFile("../games/ressources/menumoche.png")) {
+        std::cout << "ERREUR... le fichier png du MENU MOCHE n'est pas présent dans le répertoire" << std::endl;
+    }
+
+    if (!texturepause.loadFromFile("../games/ressources/menupause.png")) {
+        std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
+    }
 }
 
 sfml::~sfml()
@@ -38,12 +49,7 @@ sfml::~sfml()
 void sfml::init()
 {
     std::cout << "init..." << std::endl;
-    sf::Texture;
-    sf::Sprite;
-    sf::Texture texturemenu;
-    if (!texturemenu.loadFromFile("../games/ressources/menumoche.png")) {
-        //erreur à faire
-    }
+
 }
 
 void sfml::end()
@@ -53,6 +59,7 @@ void sfml::end()
 void sfml::display(int game_map[20][40])
 {
     std::cout << "SFML" << std::endl;
+    
 }
 
 input sfml::get_input()
@@ -62,10 +69,14 @@ input sfml::get_input()
 input sfml::menu()
 {
     std::cout << "menu" << std::endl;
+    
+    sfml::texturedumenu.update(window);
 }
 
 input sfml::pause()
 {
+    sf::RenderWindow window;
+    texturedumenu.update(window);
 }
 
 extern "C" IGraph *create() {
