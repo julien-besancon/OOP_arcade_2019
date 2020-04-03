@@ -5,12 +5,12 @@
 ** lib_arcade_sfml
 */
 #include "../src/Core.hpp"
-#include <SFML/Graphics.hpp>
+//#include <SFML/Graphics.hpp>
 
-#/* include <SFML
+/* #include <SFML
 sfml-window-s.lib
 sfml-system-s.lib */
-#include <sfml-graphics-s.lib>
+//#include <sfml-graphics-s.lib>
 
 class sfml : public IGraph
 {
@@ -18,9 +18,8 @@ class sfml : public IGraph
         sfml();
         virtual ~sfml();
 
-        void init();
         void display(int game_map[20][40]);
-        input get_input();
+        input get_input(input current);
         input menu();
         input pause();
         void end();
@@ -51,12 +50,6 @@ sfml::~sfml()
 {
 }
 
-void sfml::init()
-{
-    std::cout << "init..." << std::endl;
-
-}
-
 void sfml::end()
 {
 }
@@ -64,7 +57,7 @@ void sfml::end()
 void sfml::display(int game_map[20][40])
 {
     std::cout << "SFML" << std::endl;
-    
+
 }
 
 input sfml::get_input()
@@ -74,8 +67,8 @@ input sfml::get_input()
 input sfml::menu()
 {
     std::cout << "menu" << std::endl;
-    
-    sfml::texturemenu.update(window);
+
+    texturemenu.update(window);
 }
 
 input sfml::pause()

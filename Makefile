@@ -20,7 +20,7 @@ LIB= -fPIC -shared -lncurses
 
 CPPFLAGS	= -g3
 
-GRAPHLIB=lib_arcade_sfml lib_arcade_ncurse
+GRAPHLIB=lib_arcade_ncurse #lib_arcade_sfml
 
 GAMELIB=lib_arcade_nibbler
 

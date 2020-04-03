@@ -47,8 +47,10 @@ void Core::set_game_lib()
 
 void Core::set_graph_lib()
 {
-    if (_graph_handle)
+    if (_graph_handle) {
+        graph->end();
         dlclose(_graph_handle);
+    }
     _graph_handle = dlopen(graph_lib_name[graph_lib_nb].c_str(), RTLD_LAZY);
     if (!_graph_handle) {
         std::cerr << "Cannot open library: " << dlerror() << std::endl;

@@ -17,9 +17,8 @@ class ncurse : public IGraph
         ncurse();
         virtual ~ncurse();
 
-        void init();
         void display(int game_map[20][40]);
-        input get_input();
+        input get_input(input current);
         input menu();
         input pause();
         void end();
@@ -33,18 +32,16 @@ extern "C" IGraph *create() {
 
 ncurse::ncurse()
 {
+    win = initscr();
+    noecho();
+    curs_set(FALSE);
+    start_color();
+    init_pair(1, COLOR_RED, COLOR_BLACK);
+    clear();
 }
 
 ncurse::~ncurse()
 {
-}
-
-void ncurse::init()
-{
-    win = initscr();
-    noecho();
-    curs_set(FALSE);
-    clear();
 }
 
 void ncurse::end()
@@ -56,7 +53,7 @@ void ncurse::display(int game_map[20][40])
 {
     std::string map = "";
     static int i = 0;
-    std::cout << "NCURSE : " << i++ << std::endl;
+    clear();
     for (int y = 0; y != 20; y++) {
         for (int x = 0; x != 40; x++) {
             switch (game_map[y][x]) {
@@ -68,17 +65,20 @@ void ncurse::display(int game_map[20][40])
                 break;
                 case 3 : map.push_back('O');
                 break;
-                case 4 : map.push_back('*');
+                case 4 : map.push_back('X');
                 break;
             }
+            map.push_back(' ');
         }
         map.push_back('\n');
     }
-    printw("%s", map);
-    std::cout << map << std::endl;
+    attron(COLOR_PAIR(1));
+    printw("%s", map.c_str());
+    attroff(COLOR_PAIR(1));
+    refresh();
 }
 
-input ncurse::get_input()
+input ncurse::get_input(input current)
 {
     nodelay(win, true);
     int command = getch();
@@ -95,6 +95,7 @@ input ncurse::get_input()
         case 80 : return make_pause;
         case 112 : return make_pause;
     }
+    return (current);
 }
 
 void display_menu(int i)

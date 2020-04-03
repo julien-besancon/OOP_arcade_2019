@@ -27,15 +27,15 @@ enum input {
     left,
     right,
     make_end,
+    game_over,
 };
 
 class IGraph {
     public:
         virtual ~IGraph(){};
 
-        virtual void init() = 0;
         virtual void display(int game_map[20][40]) = 0;
-        virtual input get_input() = 0;
+        virtual input get_input(input current) = 0;
         virtual input menu() = 0;
         virtual input pause() = 0;
         virtual void end() = 0;
@@ -54,8 +54,7 @@ class IGame {
         virtual ~IGame(){};
 
         virtual input game_loop(Core &core) = 0;
-        virtual void move(input move) = 0;
-        virtual void pause() = 0;
+        virtual input move(input move) = 0;
     protected:
         state game_state;
     private:
