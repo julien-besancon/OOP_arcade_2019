@@ -6,10 +6,11 @@
 */
 #include "../src/Core.hpp"
 #include <SFML/Graphics.hpp>
+
 #/* include <SFML
 sfml-window-s.lib
 sfml-system-s.lib */
-//#include <sfml-graphics-s.lib>
+#include <sfml-graphics-s.lib>
 
 class sfml : public IGraph
 {
@@ -27,7 +28,9 @@ class sfml : public IGraph
         void mesfonction(){};
 
         sf::Texture texturemenu;
+        sf::Sprite spritemenu;
         sf::Texture texturepause;
+        sf::Sprite spritepause;
         sf::RenderWindow window;
 };
 
@@ -40,6 +43,8 @@ sfml::sfml()
     if (!texturepause.loadFromFile("../games/ressources/menupause.png")) {
         std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
     }
+    spritepause.setTexture(texturepause);
+    spritemenu.setTexture(texturemenu);
 }
 
 sfml::~sfml()
@@ -70,13 +75,12 @@ input sfml::menu()
 {
     std::cout << "menu" << std::endl;
     
-    sfml::texturedumenu.update(window);
+    sfml::texturemenu.update(window);
 }
 
 input sfml::pause()
 {
-    sf::RenderWindow window;
-    texturedumenu.update(window);
+    texturepause.update(window);
 }
 
 extern "C" IGraph *create() {
