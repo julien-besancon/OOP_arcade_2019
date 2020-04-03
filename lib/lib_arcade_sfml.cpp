@@ -40,6 +40,10 @@ void sfml::init()
     std::cout << "init..." << std::endl;
     sf::Texture;
     sf::Sprite;
+    sf::Texture texturemenu;
+    if (!texturemenu.loadFromFile("../games/ressources/menumoche.png")) {
+        //erreur à faire
+    }
 }
 
 void sfml::end()
