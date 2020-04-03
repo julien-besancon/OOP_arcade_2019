@@ -77,24 +77,9 @@ input ncurse::get_input()
     }
 }
 
-int menu_action()
+void display_menu(int i)
 {
-    static int i = 1;
-    int command = getch();
-
-    clear();
-    switch (command) {
-    case 65 : i--;
-        break;
-    case 66 : i++;
-        break;
-    case 10 : return (i);
-    }
-    if (i < 1)
-        i = 1;
-    if (i > 4)
-        i = 4;
-    switch (i) {
+        switch (i) {
     case 1:
         mvprintw(10, 25, "-->");
         break;
@@ -108,38 +93,19 @@ int menu_action()
         mvprintw(25, 25, "-->");
         break;
     }
-}
-
-void display_menu()
-{
     mvprintw(10, 30, "PLAY");
     mvprintw(15, 30, "NEXT GAME");
     mvprintw(20, 30, "PREVIOUS GAME");
     mvprintw(25, 30, "EXIT");
 }
 
-input ncurse::menu()
-{
-    nodelay(win, false);
-    display_menu();
-    int i = menu_action();
-    if (i != 0)
-        switch (i) {
-            case 1: return play;
-            case 2: return next_game;
-            case 3: return prev_game;
-            case 4: return make_end;
-        }
-    refresh();
-    return (undefinied);
-}
-
-int pause_action()
+int menu_action()
 {
     static int i = 1;
-    int command = getch();
-
+    int command;
     clear();
+    display_menu(i);
+    command = getch();
     switch (command) {
     case 65 : i--;
         break;
@@ -149,9 +115,28 @@ int pause_action()
     }
     if (i < 1)
         i = 1;
-    if (i > 6)
-        i = 6;
-    switch (i) {
+    if (i > 4)
+        i = 4;
+    refresh();
+}
+
+input ncurse::menu()
+{
+    nodelay(win, false);
+    int i = menu_action();
+    if (i != 0)
+        switch (i) {
+            case 1: return play;
+            case 2: return next_game;
+            case 3: return prev_game;
+            case 4: return make_end;
+        }
+    return (undefinied);
+}
+
+void display_pause(int i)
+{
+        switch (i) {
     case 1:
         mvprintw(5, 25, "-->");
         break;
@@ -171,11 +156,6 @@ int pause_action()
         mvprintw(30, 25, "-->");
         break;
     }
-    return (0);
-}
-
-void display_pause()
-{
     mvprintw(5, 30, "RESUME");
     mvprintw(10, 30, "RESTART");
     mvprintw(15, 30, "BACK TO MENU");
@@ -184,10 +164,32 @@ void display_pause()
     mvprintw(30, 30, "EXIT");
 }
 
+int pause_action()
+{
+    static int i = 1;
+    int command;
+
+    clear();
+    display_pause(i);
+    command = getch();
+    switch (command) {
+    case 65 : i--;
+        break;
+    case 66 : i++;
+        break;
+    case 10 : return (i);
+    }
+    if (i < 1)
+        i = 1;
+    if (i > 6)
+        i = 6;
+    return (0);
+    refresh();
+}
+
 input ncurse::pause()
 {
     nodelay(win, false);
-    display_pause();
     int i = pause_action();
     if (i != 0)
         switch (i) {
@@ -198,6 +200,5 @@ input ncurse::pause()
             case 5: return prev_lib;
             case 6: return make_end;
         }
-    refresh();
     return (undefinied);
 }

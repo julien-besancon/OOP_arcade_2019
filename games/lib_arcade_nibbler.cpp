@@ -70,13 +70,13 @@ input Nibbler::game_loop(Core &core)
         //std::cout << "--> " << i++ << std::endl;
         //core.next_graph();
 
+
         if (in == restart) {
             game_state = GAME;
             return in;
         }
         if (in == next_game || in == prev_game || in == make_end)
             return in;
-        //sleep(1);
     }
 }
 
