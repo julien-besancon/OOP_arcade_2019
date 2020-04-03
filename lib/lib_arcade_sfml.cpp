@@ -6,11 +6,7 @@
 */
 #include "../src/Core.hpp"
 #include <SFML/Graphics.hpp>
-
-#/* include <SFML
-sfml-window-s.lib
-sfml-system-s.lib */
-#include <sfml-graphics-s.lib>
+#include <SFML/Audio.hpp>
 
 class sfml : public IGraph
 {
@@ -26,25 +22,26 @@ class sfml : public IGraph
         void end();
 
         void mesfonction(){};
-
-        sf::Texture texturemenu;
-        sf::Sprite spritemenu;
-        sf::Texture texturepause;
-        sf::Sprite spritepause;
-        sf::RenderWindow window;
+    private:
+        sf::Texture _texturemenu;
+        sf::Sprite _spritemenu;
+        sf::Texture _texturepause;
+        sf::Sprite _spritepause;
+        sf::RenderWindow _window;
 };
 
 sfml::sfml()
 {
-    if (!texturemenu.loadFromFile("../games/ressources/menumoche.png")) {
+    sf::RenderWindow _window(sf::VideoMode(800, 600), "My games");
+    if (!_texturemenu.loadFromFile("../games/ressources/menumoche.png")) {
         std::cout << "ERREUR... le fichier png du MENU MOCHE n'est pas présent dans le répertoire" << std::endl;
     }
 
-    if (!texturepause.loadFromFile("../games/ressources/menupause.png")) {
+    if (!_texturepause.loadFromFile("../games/ressources/menupause.png")) {
         std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
     }
-    spritepause.setTexture(texturepause);
-    spritemenu.setTexture(texturemenu);
+    _spritepause.setTexture(_texturepause);
+    _spritemenu.setTexture(_texturemenu);
 }
 
 sfml::~sfml()
@@ -75,12 +72,14 @@ input sfml::menu()
 {
     std::cout << "menu" << std::endl;
     
-    sfml::texturemenu.update(window);
+    _texturemenu.update(_window);
+    sf::RenderTexture.display()
 }
 
 input sfml::pause()
 {
-    texturepause.update(window);
+    _texturepause.update(_window);
+    _spritepause.
 }
 
 extern "C" IGraph *create() {
