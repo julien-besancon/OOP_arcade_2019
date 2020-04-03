@@ -54,8 +54,28 @@ void ncurse::end()
 
 void ncurse::display(int game_map[20][40])
 {
+    std::string map = "";
     static int i = 0;
     std::cout << "NCURSE : " << i++ << std::endl;
+    for (int y = 0; y != 20; y++) {
+        for (int x = 0; x != 40; x++) {
+            switch (game_map[y][x]) {
+                case 0 : map.push_back(' ');
+                break;
+                case 1 : map.push_back('#');
+                break;
+                case 2 : map.push_back('F');
+                break;
+                case 3 : map.push_back('O');
+                break;
+                case 4 : map.push_back('*');
+                break;
+            }
+        }
+        map.push_back('\n');
+    }
+    printw("%s", map);
+    std::cout << map << std::endl;
 }
 
 input ncurse::get_input()
