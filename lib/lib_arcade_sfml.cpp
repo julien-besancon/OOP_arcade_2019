@@ -5,6 +5,11 @@
 ** lib_arcade_sfml
 */
 #include "../src/Core.hpp"
+#include <SFML/Graphics.hpp>
+#/* include <SFML
+sfml-window-s.lib
+sfml-system-s.lib */
+//#include <sfml-graphics-s.lib>
 
 class sfml : public IGraph
 {
@@ -18,6 +23,8 @@ class sfml : public IGraph
         input menu();
         input pause();
         void end();
+
+        void mesfonction(){};
 };
 
 sfml::sfml()
@@ -31,6 +38,8 @@ sfml::~sfml()
 void sfml::init()
 {
     std::cout << "init..." << std::endl;
+    sf::Texture;
+    sf::Sprite;
 }
 
 void sfml::end()
