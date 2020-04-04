@@ -35,6 +35,8 @@ class IGraph {
         virtual ~IGraph(){};
 
         virtual void display(int game_map[20][40]) = 0;
+        virtual void display_score(int score) = 0;
+        virtual std::string game_over_screen() = 0;
         virtual input get_input(input current) = 0;
         virtual input menu() = 0;
         virtual input pause() = 0;
@@ -46,7 +48,8 @@ class IGraph {
 enum state {
     GAME,
     PAUSE,
-    MENU
+    MENU,
+    GAME_OVER,
 };
 
 class IGame {
@@ -70,6 +73,8 @@ class ICore {
         virtual void prev_game()= 0;
         virtual void next_graph()= 0;
         virtual void prev_graph()= 0;
+        virtual void save_score(int score) = 0;
+        std::string player_name;
 };
 
 class Core : public ICore {
@@ -77,12 +82,13 @@ class Core : public ICore {
         Core(std::string str);
         ~Core();
 
-        void set_game_lib() override;
-        void set_graph_lib() override;
-        void next_game() override;
-        void prev_game() override;
-        void next_graph() override;
-        void prev_graph() override;
+        void set_game_lib();
+        void set_graph_lib();
+        void next_game();
+        void prev_game();
+        void next_graph();
+        void prev_graph();
+        void save_score(int score);
 
         IGame *game;
         IGraph *graph;

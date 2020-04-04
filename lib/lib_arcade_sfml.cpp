@@ -18,6 +18,8 @@ class sfml : public IGraph
         input get_input(input current);
         input menu();
         input pause();
+        void display_score(int score);
+        std::string game_over_screen();
         void end();
 
         void mesfonction(){};
@@ -49,6 +51,16 @@ sfml::~sfml()
 
 void sfml::end()
 {
+}
+
+void sfml::display_score(int score)
+{
+
+}
+
+std::string sfml::game_over_screen()
+{
+    
 }
 
 void sfml::display(int game_map[20][40])

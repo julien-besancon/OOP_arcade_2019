@@ -119,6 +119,7 @@ class Nibbler : public IGame
         bool is_blocked();
         bool is_eaten();
 
+        int score = 0;
         int apple_pos_x;
         int apple_pos_y;
         input snake_facing = right;
@@ -163,17 +164,18 @@ void Nibbler::init()
     snake_on_map();
     apple_pos_x = 30;
     apple_pos_y = 10;
+    score = 0;
 }
 
 input Nibbler::game_loop(Core &core)
 {
-    int i = 0;
     input in = undefinied;
     clock_t timer;
 
     srand(time(NULL));
     timer = clock();
     init();
+    core.player_name = "";
     while (1) {
         switch (game_state) {
         case GAME:
@@ -183,17 +185,32 @@ input Nibbler::game_loop(Core &core)
             if ((clock() - timer) > 150000) {
                 in = move(in);
                 core.graph->display(game_map);
+                core.graph->display_score(score);
                 timer = clock();
             }
-            break;
-        case PAUSE:
-            in = core.graph->pause();
-            if (in == back_to_menu)
-                game_state = MENU;
             break;
 
         case MENU:
             in = core.graph->menu();
+            break;
+
+        case PAUSE:
+            in = core.graph->pause();
+            if (in == restart)
+                game_state = GAME;
+            if (in == back_to_menu) {
+                in = restart;
+                game_state = MENU;
+            }
+            break;
+
+        case GAME_OVER:
+            core.player_name = core.graph->game_over_screen();
+            if (core.player_name.compare("")) {
+                game_state = MENU;
+                in = restart;
+                core.save_score(score);
+            }
             break;
         }
         if (in == play) {
@@ -208,8 +225,10 @@ input Nibbler::game_loop(Core &core)
             core.prev_graph();
             in = undefinied;
         }
-        if (in == restart || in == game_over) {
-            game_state = GAME;
+        if (in == game_over) {
+            game_state = GAME_OVER;
+        }
+        if (in == restart) {
             return in;
         }
         if (in == next_game || in == prev_game || in == make_end)
@@ -227,6 +246,7 @@ bool Nibbler::is_eaten()
                 break;
             }
         }
+        score += 100;
         return (true);
     }
     return (false);

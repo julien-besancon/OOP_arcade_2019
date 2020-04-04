@@ -6,6 +6,8 @@
 */
 #include <dlfcn.h>
 #include <stdio.h>
+#include <fstream>
+#include <iostream>
 #include "Core.hpp"
 
 Core::Core(std::string str)
@@ -23,6 +25,16 @@ Core::Core(std::string str)
 
 Core::~Core()
 {
+}
+
+void Core::save_score(int score)
+{
+    std::ofstream myfile("./bonus/SCORE", std::ios::app);
+
+    if (myfile.is_open()) {
+        myfile << player_name << " : " << score << std::endl;
+        myfile.close();
+    }
 }
 
 void Core::set_game_lib()

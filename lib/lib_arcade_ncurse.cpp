@@ -21,6 +21,8 @@ class ncurse : public IGraph
         input get_input(input current);
         input menu();
         input pause();
+        void display_score(int score);
+        std::string game_over_screen();
         void end();
         WINDOW *win;
 };
@@ -47,6 +49,27 @@ ncurse::~ncurse()
 void ncurse::end()
 {
     endwin();
+}
+
+void ncurse::display_score(int score)
+{
+    mvprintw(5, 90, "SCORE : %d", score);
+
+}
+
+std::string ncurse::game_over_screen()
+{
+    char char_name[80];
+
+    nodelay(win, false);
+    clear();
+    mvprintw(10, 30, "ENTER YOUR NAME : ");
+    refresh();
+    echo();
+    getstr(char_name);
+    std::string name(char_name);
+    noecho();
+    return (name);
 }
 
 void ncurse::display(int game_map[20][40])
@@ -139,6 +162,7 @@ int menu_action()
     if (i > 4)
         i = 4;
     refresh();
+    return (0);
 }
 
 input ncurse::menu()
@@ -204,8 +228,8 @@ int pause_action()
         i = 1;
     if (i > 6)
         i = 6;
-    return (0);
     refresh();
+    return (0);
 }
 
 input ncurse::pause()
