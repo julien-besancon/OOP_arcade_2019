@@ -127,27 +127,30 @@ input ncurse::get_input(input current)
     return (current);
 }
 
-void display_menu(int i, std::string game_name)
+void display_menu(int i, Core &core)
 {
         switch (i) {
     case 1:
-        mvprintw(10, 25, "-->");
+        mvprintw(5, 15, "-->");
         break;
     case 2:
-        mvprintw(15, 25, "-->");
+        mvprintw(10, 15, "-->");
         break;
     case 3:
-        mvprintw(20, 25, "-->");
+        mvprintw(15, 15, "-->");
         break;
     case 4:
-        mvprintw(25, 25, "-->");
+        mvprintw(20, 15, "-->");
         break;
     }
-    mvprintw(5, 50, "Current game lib : %s", game_name.c_str());
-    mvprintw(10, 30, "PLAY");
-    mvprintw(15, 30, "NEXT GAME");
-    mvprintw(20, 30, "PREVIOUS GAME");
-    mvprintw(25, 30, "EXIT");
+    mvprintw(5, 50, "Current game lib : %s", core.game_lib_name[core.game_lib_nb].c_str());
+    mvprintw(11, 50, "Available game lib : ");
+    for (int i = 11, a = 0 ; a < core.game_lib_name.size() ; i += 2, a += 1)
+        mvprintw(i, 71, "%s", core.game_lib_name[a].c_str());
+    mvprintw(5, 20, "PLAY");
+    mvprintw(10, 20, "NEXT GAME");
+    mvprintw(15, 20, "PREVIOUS GAME");
+    mvprintw(20, 20, "EXIT");
 }
 
 int menu_action(Core &core)
@@ -155,7 +158,7 @@ int menu_action(Core &core)
     static int i = 1;
     int command;
     clear();
-    display_menu(i, core.game_lib_name[core.game_lib_nb]);
+    display_menu(i, core);
     command = getch();
     switch (command) {
     case 65 : i--;
@@ -193,27 +196,27 @@ void display_pause(int i)
         mvprintw(5, 25, "-->");
         break;
     case 2:
-        mvprintw(10, 25, "-->");
+        mvprintw(8, 25, "-->");
         break;
     case 3:
-        mvprintw(15, 25, "-->");
+        mvprintw(11, 25, "-->");
         break;
     case 4:
-        mvprintw(20, 25, "-->");
+        mvprintw(14, 25, "-->");
         break;
     case 5:
-        mvprintw(25, 25, "-->");
+        mvprintw(17, 25, "-->");
         break;
     case 6:
-        mvprintw(30, 25, "-->");
+        mvprintw(20, 25, "-->");
         break;
     }
     mvprintw(5, 30, "RESUME");
-    mvprintw(10, 30, "RESTART");
-    mvprintw(15, 30, "BACK TO MENU");
-    mvprintw(20, 30, "NEXT LIB");
-    mvprintw(25, 30, "PREVIOUS LIB");
-    mvprintw(30, 30, "EXIT");
+    mvprintw(8, 30, "RESTART");
+    mvprintw(11, 30, "BACK TO MENU");
+    mvprintw(14, 30, "NEXT LIB");
+    mvprintw(17, 30, "PREVIOUS LIB");
+    mvprintw(20, 30, "EXIT");
 }
 
 int pause_action()

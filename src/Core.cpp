@@ -8,16 +8,17 @@
 #include <stdio.h>
 #include <fstream>
 #include <iostream>
+#include <algorithm>
 #include "Core.hpp"
 
 Core::Core(std::string str)
 {
     int i = 0;
-    for (; str.compare(graph_lib_name[i]) ; i++);
-    /* if (i >= graph_lib_name.size()) {
-        std::cerr << "Wrong lib name !" << std::endl;
+    if (std::find(graph_lib_name.begin(), graph_lib_name.end(), str) == graph_lib_name.end()) {
+        std::cerr << "This lib doesn't exist !" << std::endl;
         exit (84);
-    }*/
+    }
+    for (; str.compare(graph_lib_name[i]) ; i++);
     graph_lib_nb = i;
     set_game_lib();
     set_graph_lib();

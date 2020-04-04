@@ -57,9 +57,9 @@ void Snake::add_head(int x, int y)
 void Snake::empty(void)
 {
     while (nb_part > 0)
-       Snake_part *deleted_part = head;
+       Snake_part *tmp = head;
        head = head->next;
-       //delete deleted_part;
+       //delete tmp;
        --nb_part;
        if (nb_part == 0)
            tail = NULL;
