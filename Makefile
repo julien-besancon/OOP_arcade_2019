@@ -22,7 +22,7 @@ CPPFLAGS	= -g3
 
 GRAPHLIB=lib_arcade_ncurse #lib_arcade_sfml
 
-GAMELIB=lib_arcade_nibbler
+GAMELIB=lib_arcade_nibbler lib_arcade_pacman
 
 all:	core games graphicals
 

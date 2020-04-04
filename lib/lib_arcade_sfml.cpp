@@ -16,7 +16,7 @@ class sfml : public IGraph
 
         void display(int game_map[20][40]);
         input get_input(input current);
-        input menu();
+        input menu(Core &core);
         input pause();
         void display_score(int score);
         std::string game_over_screen();
@@ -73,7 +73,7 @@ input sfml::get_input()
 {
 }
 
-input sfml::menu()
+input sfml::menu(Core &core)
 {
     std::cout << "menu" << std::endl;
     

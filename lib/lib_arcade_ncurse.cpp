@@ -19,9 +19,10 @@ class ncurse : public IGraph
 
         void display(int game_map[20][40]);
         input get_input(input current);
-        input menu();
+        input menu(Core &core);
         input pause();
         void display_score(int score);
+        void display_game_name(std::string name);
         std::string game_over_screen();
         void end();
         WINDOW *win;
@@ -54,6 +55,11 @@ void ncurse::end()
 void ncurse::display_score(int score)
 {
     mvprintw(5, 90, "SCORE : %d", score);
+
+}
+
+void ncurse::display_game_name(std::string name)
+{
 
 }
 
@@ -121,7 +127,7 @@ input ncurse::get_input(input current)
     return (current);
 }
 
-void display_menu(int i)
+void display_menu(int i, std::string game_name)
 {
         switch (i) {
     case 1:
@@ -137,18 +143,19 @@ void display_menu(int i)
         mvprintw(25, 25, "-->");
         break;
     }
+    mvprintw(5, 50, "Current game lib : %s", game_name.c_str());
     mvprintw(10, 30, "PLAY");
     mvprintw(15, 30, "NEXT GAME");
     mvprintw(20, 30, "PREVIOUS GAME");
     mvprintw(25, 30, "EXIT");
 }
 
-int menu_action()
+int menu_action(Core &core)
 {
     static int i = 1;
     int command;
     clear();
-    display_menu(i);
+    display_menu(i, core.game_lib_name[core.game_lib_nb]);
     command = getch();
     switch (command) {
     case 65 : i--;
@@ -165,10 +172,10 @@ int menu_action()
     return (0);
 }
 
-input ncurse::menu()
+input ncurse::menu(Core &core)
 {
     nodelay(win, false);
-    int i = menu_action();
+    int i = menu_action(core);
     if (i != 0)
         switch (i) {
             case 1: return play;

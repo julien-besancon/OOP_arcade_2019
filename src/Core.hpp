@@ -36,9 +36,10 @@ class IGraph {
 
         virtual void display(int game_map[20][40]) = 0;
         virtual void display_score(int score) = 0;
+        virtual void display_game_name(std::string name) = 0;
         virtual std::string game_over_screen() = 0;
         virtual input get_input(input current) = 0;
-        virtual input menu() = 0;
+        virtual input menu(Core &core) = 0;
         virtual input pause() = 0;
         virtual void end() = 0;
     protected:
