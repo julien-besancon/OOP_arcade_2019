@@ -10,7 +10,6 @@
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
 
-
 class sfml : public IGraph
 {
     public:
@@ -25,30 +24,29 @@ class sfml : public IGraph
         void display_game_name(std::string name);
         std::string game_over_screen();
         void end();
-        
-        sf::Sprite _spritemenu;
+
         sf::Sprite _spritepause;
+        sf::Sprite _spritemenu;
         sf::RenderWindow _window;
+        sf::Texture _texturemenu;
+        sf::Texture _texturepause;
 };
 
 sfml::sfml()
 {
     _window.create(sf::VideoMode(1920, 1080), "My window");
-    sf::Texture texturemenu;
-    sf::Texture texturepause;
 
-
-    if (!texturemenu.loadFromFile("./lib/ressource/sfml/menu_bg.jpeg")) {
+    if (!_texturemenu.loadFromFile("./lib/ressource/sfml/menu_bg.jpeg")) {
         std::cout << "ERREUR... le fichier png du MENU MOCHE n'est pas présent dans le répertoire" << std::endl;
         end();
     }
 
-    if (!texturepause.loadFromFile("./lib/ressource/sfml/menu_bg.jpeg")) {
+    if (!_texturepause.loadFromFile("./lib/ressource/sfml/menumoche.png")) {
         std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
         end();
     }
-    _spritepause.setTexture(texturepause);
-    _spritemenu.setTexture(texturemenu);
+    _spritepause.setTexture(_texturepause);
+    _spritemenu.setTexture(_texturemenu);
 }
 
 sfml::~sfml()
@@ -85,8 +83,8 @@ input sfml::get_input(input current)
 }
 
 input sfml::menu(Core &core)
-{   
-    _window.clear(sf::Color::Black);
+{
+    _window.clear();
     _window.draw(_spritemenu);
     _window.display();
     return(undefinied);
@@ -94,6 +92,7 @@ input sfml::menu(Core &core)
 
 input sfml::pause()
 {
+    _window.clear();
     _window.draw(_spritepause);
     _window.display();
     return(undefinied);

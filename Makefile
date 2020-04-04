@@ -16,11 +16,11 @@ NAME	=	arcade
 
 RM	=	rm -f
 
-LIB= -fPIC -shared -lncurses
+LIB= -fPIC -shared -lncurses -lsfml-graphics -lsfml-window -lsfml-system
 
 CPPFLAGS	= -g3
 
-GRAPHLIB=lib_arcade_ncurse #lib_arcade_sfml
+GRAPHLIB=lib_arcade_ncurse lib_arcade_sfml
 
 GAMELIB=lib_arcade_nibbler lib_arcade_pacman
 
