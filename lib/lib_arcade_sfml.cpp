@@ -9,6 +9,11 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
+#include <SFML/System.h>
+#include <stddef.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <Sprite.hpp>
 
 class sfml : public IGraph
 {
@@ -23,13 +28,19 @@ class sfml : public IGraph
         void display_score(int score);
         void display_game_name(std::string name);
         std::string game_over_screen();
+        input event_loop();
+        void display_menu();
+        void display_pause();
         void end();
-
+        
+        sf::Event _event;
         sf::Sprite _spritepause;
         sf::Sprite _spritemenu;
+        sf::Sprite _spritearrow;
         sf::RenderWindow _window;
         sf::Texture _texturemenu;
         sf::Texture _texturepause;
+        sf::Texture _texturearrow;
 };
 
 sfml::sfml()
@@ -45,8 +56,14 @@ sfml::sfml()
         std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
         end();
     }
+
+    if (!_texturearrow.loadFromFile("./lib/ressource/sfml/menumoche.png")) {
+        std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
+        end();
+    }
     _spritepause.setTexture(_texturepause);
     _spritemenu.setTexture(_texturemenu);
+    _spritearrow.setTexture(_texturearrow);
 }
 
 sfml::~sfml()
@@ -56,6 +73,13 @@ sfml::~sfml()
 void sfml::end()
 {
     _window.close();
+}
+
+void sfml::move_arrow()
+{
+    sf::Vector2f position = _spritearrow.getPosition(); // = (15, 55)
+    if sf::Sprite::setPosition() setPosition(var->sprite_duck, (sfVector2f){100, 0});
+    
 }
 
 void sfml::display(int game_map[20][40])
@@ -82,11 +106,42 @@ input sfml::get_input(input current)
     return(current);
 }
 
-input sfml::menu(Core &core)
+input sfml::event_loop()
+{
+    while (_window.pollEvent(_event)) {
+        if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape)
+            end();
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Up) {
+                if ()
+            }
+
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Down) {
+                if ()
+            }
+
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Return) {
+                if ()
+            }
+    }
+}
+
+void sfml::display_menu()
 {
     _window.clear();
+
     _window.draw(_spritemenu);
+    _window.draw(_spritearrow);
+
     _window.display();
+}
+
+input sfml::menu(Core &core)
+{
+    event_loop();
+    display_menu();
     return(undefinied);
 }
 
