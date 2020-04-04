@@ -13,7 +13,7 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <Sprite.hpp>
+#include <SFML/>
 
 class sfml : public IGraph
 {
@@ -29,6 +29,7 @@ class sfml : public IGraph
         void display_game_name(std::string name);
         std::string game_over_screen();
         input event_loop();
+        void move_arrow();
         void display_menu();
         void display_pause();
         void end();
@@ -57,8 +58,8 @@ sfml::sfml()
         end();
     }
 
-    if (!_texturearrow.loadFromFile("./lib/ressource/sfml/menumoche.png")) {
-        std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
+    if (!_texturearrow.loadFromFile("./lib/ressource/sfml/arrow.png")) {
+        std::cout << "ERREUR... le fichier png du MENU arrow n'est pas présent dans le répertoire" << std::endl;
         end();
     }
     _spritepause.setTexture(_texturepause);
@@ -78,7 +79,7 @@ void sfml::end()
 void sfml::move_arrow()
 {
     sf::Vector2f position = _spritearrow.getPosition(); // = (15, 55)
-    if sf::Sprite::setPosition() setPosition(var->sprite_duck, (sfVector2f){100, 0});
+    if (sf::Sprite::setPosition(_spritearrow, (sfVector2f){100, 0});
     
 }
 
