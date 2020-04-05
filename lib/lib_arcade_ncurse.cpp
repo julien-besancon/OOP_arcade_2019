@@ -22,7 +22,6 @@ class ncurse : public IGraph
         input menu(Core &core);
         input pause();
         void display_score(int score);
-        void display_game_name(std::string name);
         std::string game_over_screen();
         void end();
         WINDOW *win;
@@ -55,11 +54,6 @@ void ncurse::end()
 void ncurse::display_score(int score)
 {
     mvprintw(5, 90, "SCORE : %d", score);
-
-}
-
-void ncurse::display_game_name(std::string name)
-{
 
 }
 

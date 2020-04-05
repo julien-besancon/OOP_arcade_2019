@@ -13,7 +13,11 @@
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <SFML/>
+#include <SFML/Graphics/Export.hpp>
+#include <SFML/Graphics/Drawable.hpp>
+#include <SFML/Graphics/Transformable.hpp>
+#include <SFML/Graphics/Vertex.hpp>
+#include <SFML/Graphics/Rect.hpp>
 
 class sfml : public IGraph
 {
@@ -26,10 +30,9 @@ class sfml : public IGraph
         input menu(Core &core);
         input pause();
         void display_score(int score);
-        void display_game_name(std::string name);
         std::string game_over_screen();
-        input event_loop();
-        void move_arrow();
+        input menu_event_loop();
+        input pause_event_loop();
         void display_menu();
         void display_pause();
         void end();
@@ -39,32 +42,39 @@ class sfml : public IGraph
         sf::Sprite _spritemenu;
         sf::Sprite _spritearrow;
         sf::RenderWindow _window;
-        sf::Texture _texturemenu;
-        sf::Texture _texturepause;
-        sf::Texture _texturearrow;
+        sf::Texture _texture_menu;
+        sf::Texture _texture_pause;
+        sf::Texture _texture_arrow;
+        sf::Texture _texture_wall;
+        sf::Texture _texture_floor;
+        sf::Texture _texture_apple;
+        sf::Texture _texture_snake_body;
+        sf::Texture _texture_snake_head;
+        sf::Sprite _sprite_list[20][40];
 };
 
 sfml::sfml()
 {
     _window.create(sf::VideoMode(1920, 1080), "My window");
 
-    if (!_texturemenu.loadFromFile("./lib/ressource/sfml/menu_bg.jpeg")) {
-        std::cout << "ERREUR... le fichier png du MENU MOCHE n'est pas présent dans le répertoire" << std::endl;
-        end();
-    }
-
-    if (!_texturepause.loadFromFile("./lib/ressource/sfml/menumoche.png")) {
-        std::cout << "ERREUR... le fichier png du MENU PAUSE n'est pas présent dans le répertoire" << std::endl;
-        end();
-    }
-
-    if (!_texturearrow.loadFromFile("./lib/ressource/sfml/arrow.png")) {
-        std::cout << "ERREUR... le fichier png du MENU arrow n'est pas présent dans le répertoire" << std::endl;
-        end();
-    }
-    _spritepause.setTexture(_texturepause);
-    _spritemenu.setTexture(_texturemenu);
-    _spritearrow.setTexture(_texturearrow);
+    _texture_menu.loadFromFile("./lib/ressource/sfml/menu_bg.jpeg");
+    _texture_pause.loadFromFile("./lib/ressource/sfml/menumoche.png");
+    _texture_arrow.loadFromFile("./lib/ressource/sfml/arrow.png");
+    _texture_wall.loadFromFile("./lib/ressource/sfml/wall.png");
+    _texture_floor.loadFromFile("./lib/ressource/sfml/floor.png");
+    _texture_apple.loadFromFile("./lib/ressource/sfml/apple.png");
+    _texture_snake_body.loadFromFile("./lib/ressource/sfml/snake_body.png");
+    _texture_snake_head.loadFromFile("./lib/ressource/sfml/snake_head.png");
+    _spritepause.setTexture(_texture_pause);
+    _spritemenu.setTexture(_texture_menu);
+    _spritearrow.setTexture(_texture_arrow);
+    _spritearrow.setPosition(200, 200);
+    _spritearrow.setScale(0.05, 0.05);
+    std::cout << "0";
+    for (int y = 0, a = 0; y != 20; y++)
+        for (int x = 0; x != 40; x++, a++)
+            _sprite_list[y][x].setPosition(x*15, y*15);
+    std::cout << "2";
 }
 
 sfml::~sfml()
@@ -76,23 +86,30 @@ void sfml::end()
     _window.close();
 }
 
-void sfml::move_arrow()
-{
-    sf::Vector2f position = _spritearrow.getPosition(); // = (15, 55)
-    if (sf::Sprite::setPosition(_spritearrow, (sfVector2f){100, 0});
-    
-}
-
 void sfml::display(int game_map[20][40])
 {
+    _window.clear();
+    for (int y = 0, a = 0; y != 20; y++)
+        for (int x = 0; x != 40; x++, a++)
+            switch (game_map[y][x]) {
+                case 0 : _sprite_list[y][x].setTexture(_texture_floor);
+                break;
+                case 1 : _sprite_list[y][x].setTexture(_texture_wall);
+                break;
+                case 2 : _sprite_list[y][x].setTexture(_texture_apple);
+                break;
+                case 3 : _sprite_list[y][x].setTexture(_texture_snake_head);
+                break;
+                case 4 : _sprite_list[y][x].setTexture(_texture_snake_body);
+                break;
+            }
+    for (int y = 0, a = 0; y != 20; y++)
+        for (int x = 0; x != 40; x++, a++)
+            _window.draw(_sprite_list[y][x]);
+    _window.display();
 }
 
 void sfml::display_score(int score)
-{
-
-}
-
-void sfml::display_game_name(std::string name)
 {
 
 }
@@ -104,29 +121,59 @@ std::string sfml::game_over_screen()
 
 input sfml::get_input(input current)
 {
-    return(current);
-}
-
-input sfml::event_loop()
-{
     while (_window.pollEvent(_event)) {
         if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape)
-            end();
+            return make_end;
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Up)
+            return up;
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Down) 
+            return down;
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Right) 
+            return right;
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Left) 
+            return left;
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::P)
+            return make_pause;
+        }
+    return current;
+}
+
+input sfml::menu_event_loop()
+{
+    while (_window.pollEvent(_event)) {
+        if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape) {
+            return make_end;
+        }
         if (_event.type == sf::Event::KeyPressed &&
             _event.key.code == sf::Keyboard::Up) {
-                if ()
+                if (_spritearrow.getPosition().y > 200)
+                    _spritearrow.move(0, -200);
             }
 
         if (_event.type == sf::Event::KeyPressed &&
             _event.key.code == sf::Keyboard::Down) {
-                if ()
+                if (_spritearrow.getPosition().y < 800)
+                    _spritearrow.move(0, 200);
             }
 
         if (_event.type == sf::Event::KeyPressed &&
             _event.key.code == sf::Keyboard::Return) {
-                if ()
+                if (_spritearrow.getPosition().y == 200)
+                    return play;
+                if (_spritearrow.getPosition().y == 400)
+                    return next_lib;
+                if (_spritearrow.getPosition().y == 600)
+                    return prev_lib;
+                if (_spritearrow.getPosition().y == 800)
+                    return make_end;
             }
     }
+    return undefinied;
 }
 
 void sfml::display_menu()
@@ -141,17 +188,63 @@ void sfml::display_menu()
 
 input sfml::menu(Core &core)
 {
-    event_loop();
+    input res = menu_event_loop();
     display_menu();
-    return(undefinied);
+    return(res);
+}
+
+input sfml::pause_event_loop()
+{
+    while (_window.pollEvent(_event)) {
+        if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape) {
+            return make_end;
+        }
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Up) {
+                if (_spritearrow.getPosition().y > 200)
+                    _spritearrow.move(0, -100);
+            }
+
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Down) {
+                if (_spritearrow.getPosition().y < 700)
+                    _spritearrow.move(0, 100);
+            }
+
+        if (_event.type == sf::Event::KeyPressed &&
+            _event.key.code == sf::Keyboard::Return) {
+                if (_spritearrow.getPosition().y == 200)
+                    return play;
+                if (_spritearrow.getPosition().y == 300)
+                    return restart;
+                if (_spritearrow.getPosition().y == 400)
+                    return back_to_menu;
+                if (_spritearrow.getPosition().y == 500)
+                    return next_lib;
+                if (_spritearrow.getPosition().y == 600)
+                    return prev_lib;
+                if (_spritearrow.getPosition().y == 700)
+                    return make_end;
+            }
+    }
+    return undefinied;
+}
+
+void sfml::display_pause()
+{
+    _window.clear();
+
+    _window.draw(_spritepause);
+    _window.draw(_spritearrow);
+
+    _window.display();
 }
 
 input sfml::pause()
 {
-    _window.clear();
-    _window.draw(_spritepause);
-    _window.display();
-    return(undefinied);
+    input res = pause_event_loop();
+    display_pause();
+    return(res);
 }
 
 extern "C" IGraph *create() {
