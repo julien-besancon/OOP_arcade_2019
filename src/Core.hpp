@@ -91,7 +91,7 @@ class Core : public ICore {
         IGame *game;
         IGraph *graph;
         std::string player_name;
-        std::vector<std::string> graph_lib_name = {"./lib_arcade_ncurse.so", "./lib_arcade_sfml.so"};
+        std::vector<std::string> graph_lib_name = {"./lib_arcade_ncurse.so", "./lib_arcade_sfml.so", "./lib_arcade_sdl.so"};
         int graph_lib_nb;
         std::vector<std::string> game_lib_name = {"./lib_arcade_nibbler.so", "./lib_arcade_pacman.so"};
         int game_lib_nb = 0;
