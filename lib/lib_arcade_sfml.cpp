@@ -57,8 +57,8 @@ sfml::sfml()
 {
     _window.create(sf::VideoMode(1920, 1080), "My window");
 
-    _texture_menu.loadFromFile("./lib/ressource/sfml/menu_bg.jpeg");
-    _texture_pause.loadFromFile("./lib/ressource/sfml/menumoche.png");
+    _texture_menu.loadFromFile("./lib/ressource/sfml/menu_bg1080p.png");
+    _texture_pause.loadFromFile("./lib/ressource/sfml/menupause.png");
     _texture_arrow.loadFromFile("./lib/ressource/sfml/arrow.png");
     _texture_wall.loadFromFile("./lib/ressource/sfml/wall.png");
     _texture_floor.loadFromFile("./lib/ressource/sfml/floor.png");
