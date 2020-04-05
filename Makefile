@@ -16,7 +16,7 @@ NAME	=	arcade
 
 RM	=	rm -f
 
-LIB= -fPIC -shared -lncurses -lsfml-graphics -lsfml-window -lsfml-system #-lSDL -lSDL_image -lSDL_ttf #-sdl2-config -sdl2--cflags -sdl2--libs
+LIB= -fPIC -shared -lncurses -lsfml-graphics -lsfml-window -lsfml-system `sdl2-config --cflags --libs`
 
 CPPFLAGS	= -g3
 
