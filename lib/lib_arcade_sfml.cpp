@@ -212,9 +212,9 @@ input sfml::menu_event_loop()
                 if (_spritearrow.getPosition().y == 200)
                     return play;
                 if (_spritearrow.getPosition().y == 400)
-                    return next_lib;
+                    return next_game;
                 if (_spritearrow.getPosition().y == 600)
-                    return prev_lib;
+                    return prev_game;
                 if (_spritearrow.getPosition().y == 800)
                     return make_end;
             }
