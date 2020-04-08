@@ -17,6 +17,8 @@
 #include <SFML/Graphics/Transformable.hpp>
 #include <SFML/Graphics/Vertex.hpp>
 #include <SFML/Graphics/Rect.hpp>
+#include <iostream>  
+#include <sstream>
 
 class sfml : public IGraph
 {
@@ -34,13 +36,16 @@ class sfml : public IGraph
         input pause_event_loop();
         void display_menu();
         void display_pause();
+        std::string event_game_over();
         
         sf::Event _event;
         sf::Sprite _spritepause;
         sf::Sprite _spritemenu;
+        sf::Sprite _spriteover;
         sf::Sprite _spritearrow;
         sf::RenderWindow _window;
         sf::Texture _texture_menu;
+        sf::Texture _texture_over;
         sf::Texture _texture_pause;
         sf::Texture _texture_arrow;
         sf::Texture _texture_wall;
@@ -49,13 +54,19 @@ class sfml : public IGraph
         sf::Texture _texture_snake_body;
         sf::Texture _texture_snake_head;
         sf::Sprite _sprite_list[20][40];
+        sf::Font _score_font;
+        sf::Text _score_text;
+        sf::Text _gameover_text;
+        sf::Text _currentlib_text;
 };
 
 sfml::sfml()
 {
     _window.create(sf::VideoMode(1920, 1080), "My window");
 
+    _score_font.loadFromFile("./lib/ressource/sfml/BEBAS.ttf");
     _texture_menu.loadFromFile("./lib/ressource/sfml/menu_bg1080p.png");
+    _texture_over.loadFromFile("./lib/ressource/sfml/over.png");
     _texture_pause.loadFromFile("./lib/ressource/sfml/menupause.png");
     _texture_arrow.loadFromFile("./lib/ressource/sfml/arrow.png");
     _texture_wall.loadFromFile("./lib/ressource/sfml/wall.png");
@@ -63,14 +74,21 @@ sfml::sfml()
     _texture_apple.loadFromFile("./lib/ressource/sfml/apple.png");
     _texture_snake_body.loadFromFile("./lib/ressource/sfml/snake_body.png");
     _texture_snake_head.loadFromFile("./lib/ressource/sfml/snake_head.png");
+    _score_text.setFont(_score_font);
+    _currentlib_text.setFont(_score_font);
+    _gameover_text.setFont(_score_font);
     _spritepause.setTexture(_texture_pause);
     _spritemenu.setTexture(_texture_menu);
+    _spriteover.setTexture(_texture_over);
     _spritearrow.setTexture(_texture_arrow);
     _spritearrow.setPosition(200, 200);
     _spritearrow.setScale(0.05, 0.05);
+    _gameover_text.setPosition(1000, 500);
+    _score_text.setCharacterSize(50);
+    _score_text.setPosition(1000,0);
     for (int y = 0, a = 0; y != 20; y++)
         for (int x = 0; x != 40; x++, a++)
-            _sprite_list[y][x].setPosition(x*15, y*15);
+            _sprite_list[y][x].setPosition((x*40)+140, (y*40)+160);
 }
 
 sfml::~sfml()
@@ -98,22 +116,53 @@ void sfml::display(int game_map[20][40])
     for (int y = 0, a = 0; y != 20; y++)
         for (int x = 0; x != 40; x++, a++)
             _window.draw(_sprite_list[y][x]);
-    _window.display();
 }
 
 void sfml::display_score(int score)
 {
+    
+    _score_text.setString("score :" + std::to_string(score));
+    _window.draw(_score_text);
+    _window.display();
+}
+
+std::string sfml::event_game_over()
+{
+    static std::string str = "";
+    while (_window.pollEvent(_event)) {
+
+    _window.draw(_gameover_text);
+        if (_event.type == sf::Event::Closed) {
+            end();
+            exit(0);
+        }
+        if (_event.type == _event.TextEntered)
+            if (_event.text.unicode < 127 && _event.text.unicode > 32)
+                str += static_cast<char>(_event.text.unicode);
+        if (_event.type == sf::Event::KeyPressed && _event.key.code == sf::Keyboard::Space)
+            str += " ";
+        if (_event.type == sf::Event::KeyPressed && _event.key.code == sf::Keyboard::Return)
+            return str;
+        if (_event.type == sf::Event::KeyPressed && _event.key.code == sf::Keyboard::BackSpace)
+            str.pop_back();
+    }
+    _gameover_text.setString(str);
+    _window.draw(_spriteover);
+    _window.draw(_gameover_text);
+    _window.display();
+    return "";
 }
 
 std::string sfml::game_over_screen()
 {
-    return("");
+    _window.clear();
+    return(event_game_over());
 }
 
 input sfml::get_input(input current)
 {
     while (_window.pollEvent(_event)) {
-        if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape)
+        if (_event.type == sf::Event::Closed)
             return make_end;
         if (_event.type == sf::Event::KeyPressed &&
             _event.key.code == sf::Keyboard::Up)
@@ -127,8 +176,8 @@ input sfml::get_input(input current)
         if (_event.type == sf::Event::KeyPressed &&
             _event.key.code == sf::Keyboard::Left) 
             return left;
-        if (_event.type == sf::Event::KeyPressed &&
-            _event.key.code == sf::Keyboard::P)
+        if (_event.type == sf::Event::KeyPressed && (_event.key.code == sf::Keyboard::P
+        || _event.key.code == sf::Keyboard::Escape))
             return make_pause;
         }
     return current;
@@ -137,7 +186,7 @@ input sfml::get_input(input current)
 input sfml::menu_event_loop()
 {
     while (_window.pollEvent(_event)) {
-        if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape) {
+        if (_event.type == sf::Event::Closed) {
             return make_end;
         }
         if (_event.type == sf::Event::KeyPressed &&
@@ -187,7 +236,7 @@ input sfml::menu(Core &core)
 input sfml::pause_event_loop()
 {
     while (_window.pollEvent(_event)) {
-        if (_event.type == sf::Event::Closed || _event.key.code == sf::Keyboard::Escape) {
+        if (_event.type == sf::Event::Closed) {
             return make_end;
         }
         if (_event.type == sf::Event::KeyPressed &&
