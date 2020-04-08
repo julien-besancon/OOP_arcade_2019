@@ -33,7 +33,8 @@ int main(int ac, char **av)
     Core core(av[1]);
 
     launch_game(core);
-    core.graph->end();
+    delete core.graph;
+    delete core.game;
     dlclose(core._game_handle);
     dlclose(core._graph_handle);
 }

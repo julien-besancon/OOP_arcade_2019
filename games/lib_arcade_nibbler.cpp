@@ -13,6 +13,7 @@ class Snake_part
 {
     public:
         Snake_part(int x, int y) {pos_x = x, pos_y = y, next = NULL;}
+        ~Snake_part() {};
 
         int pos_x;
         int pos_y;
@@ -23,14 +24,16 @@ class Snake
 {
     public:
         Snake();
-        ~Snake() {};
+        ~Snake() {empty();};
 
         void add_head(int x, int y);
+        void remove_head();
         void empty(void);
         void move(input face);
+        Snake operator=(const Snake&source);
         Snake_part *head;
         Snake_part *tail;
-        int nb_part;
+        int nb_part = 0;
 };
 
 Snake::Snake()
@@ -49,20 +52,25 @@ void Snake::add_head(int x, int y)
         return;
     new_part->next = head;
     head = new_part;
-     if (nb_part == 0)
+    if (nb_part == 0)
         tail = new_part;
-     ++nb_part;
+    ++nb_part;
+}
+
+void Snake::remove_head()
+{
+    Snake_part *deleted_part = head;
+    head = head->next;
+    delete deleted_part;
+    --nb_part;
+    if (nb_part == 0)
+        tail = NULL;
 }
 
 void Snake::empty(void)
 {
     while (nb_part > 0)
-       Snake_part *deleted_part = head;
-       head = head->next;
-       //delete deleted_part;
-       --nb_part;
-       if (nb_part == 0)
-           tail = NULL;
+        remove_head();
 }
 
 int move_pos_x(int x, input face)
@@ -110,7 +118,7 @@ class Nibbler : public IGame
 {
     public:
         Nibbler();
-        virtual ~Nibbler();
+        ~Nibbler();
 
         void init();
         input game_loop(Core &core);
@@ -124,7 +132,7 @@ class Nibbler : public IGame
         int apple_pos_y;
         input snake_facing = right;
         state game_state = MENU;
-        Snake *_snake;
+        Snake *_snake = NULL;
         int basic_map[20][40];
         int game_map[20][40];
 };
@@ -141,6 +149,7 @@ Nibbler::Nibbler()
 
 Nibbler::~Nibbler()
 {
+    delete _snake;
 }
 
 void Nibbler::snake_on_map()
@@ -157,9 +166,9 @@ void Nibbler::snake_on_map()
 
 void Nibbler::init()
 {
-    Snake *new_snake = new Snake();
-
-    _snake = new_snake;
+    if (_snake != NULL)
+        delete _snake;
+    _snake = new Snake();
     snake_facing = right;
     snake_on_map();
     apple_pos_x = 30;

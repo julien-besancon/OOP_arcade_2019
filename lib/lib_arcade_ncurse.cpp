@@ -27,11 +27,6 @@ class ncurse : public IGraph
         WINDOW *win;
 };
 
-extern "C" IGraph *create() {
-    ncurse *graph = new ncurse();
-    return graph;
-}
-
 ncurse::ncurse()
 {
     win = initscr();
@@ -44,17 +39,12 @@ ncurse::ncurse()
 
 ncurse::~ncurse()
 {
-}
-
-void ncurse::end()
-{
     endwin();
 }
 
 void ncurse::display_score(int score)
 {
     mvprintw(5, 90, "SCORE : %d", score);
-
 }
 
 std::string ncurse::game_over_screen()
@@ -250,4 +240,9 @@ input ncurse::pause()
             case 6: return make_end;
         }
     return (undefinied);
+}
+
+extern "C" IGraph *create() {
+    ncurse *graph = new ncurse();
+    return graph;
 }

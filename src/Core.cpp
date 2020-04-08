@@ -40,8 +40,10 @@ void Core::save_score(int score)
 
 void Core::set_game_lib()
 {
-    if (_game_handle)
+    if (_game_handle) {
+        delete game;
         dlclose(_game_handle);
+    }
     _game_handle = dlopen(game_lib_name[game_lib_nb].c_str(), RTLD_LAZY);
     if (!_game_handle) {
         std::cerr << "Cannot open library: " << dlerror() << std::endl;
@@ -61,7 +63,7 @@ void Core::set_game_lib()
 void Core::set_graph_lib()
 {
     if (_graph_handle) {
-        graph->end();
+        delete graph;
         dlclose(_graph_handle);
     }
     _graph_handle = dlopen(graph_lib_name[graph_lib_nb].c_str(), RTLD_LAZY);

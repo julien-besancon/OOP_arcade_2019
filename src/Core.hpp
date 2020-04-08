@@ -40,7 +40,6 @@ class IGraph {
         virtual input get_input(input current) = 0;
         virtual input menu(Core &core) = 0;
         virtual input pause() = 0;
-        virtual void end() = 0;
     protected:
     private:
 };
@@ -88,10 +87,10 @@ class Core : public ICore {
         void prev_graph();
         void save_score(int score);
 
-        IGame *game;
-        IGraph *graph;
+        IGame *game = NULL;
+        IGraph *graph = NULL;
         std::string player_name;
-        std::vector<std::string> graph_lib_name = {"./lib_arcade_ncurse.so", "./lib_arcade_sfml.so", "./lib_arcade_sdl.so"};
+        std::vector<std::string> graph_lib_name = {"./lib_arcade_ncurse.so", "./lib_arcade_sfml.so"/* , "./lib_arcade_sdl.so" */};
         int graph_lib_nb;
         std::vector<std::string> game_lib_name = {"./lib_arcade_nibbler.so", "./lib_arcade_pacman.so"};
         int game_lib_nb = 0;

@@ -9,7 +9,6 @@
 #include <SFML/Audio.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/System.hpp>
-#include <SFML/System.h>
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -35,7 +34,6 @@ class sfml : public IGraph
         input pause_event_loop();
         void display_menu();
         void display_pause();
-        void end();
         
         sf::Event _event;
         sf::Sprite _spritepause;
@@ -70,18 +68,12 @@ sfml::sfml()
     _spritearrow.setTexture(_texture_arrow);
     _spritearrow.setPosition(200, 200);
     _spritearrow.setScale(0.05, 0.05);
-    std::cout << "0";
     for (int y = 0, a = 0; y != 20; y++)
         for (int x = 0; x != 40; x++, a++)
             _sprite_list[y][x].setPosition(x*15, y*15);
-    std::cout << "2";
 }
 
 sfml::~sfml()
-{
-}
-
-void sfml::end()
 {
     _window.close();
 }
@@ -111,7 +103,6 @@ void sfml::display(int game_map[20][40])
 
 void sfml::display_score(int score)
 {
-
 }
 
 std::string sfml::game_over_screen()
@@ -166,9 +157,9 @@ input sfml::menu_event_loop()
                 if (_spritearrow.getPosition().y == 200)
                     return play;
                 if (_spritearrow.getPosition().y == 400)
-                    return next_lib;
+                    return next_game;
                 if (_spritearrow.getPosition().y == 600)
-                    return prev_lib;
+                    return prev_game;
                 if (_spritearrow.getPosition().y == 800)
                     return make_end;
             }
