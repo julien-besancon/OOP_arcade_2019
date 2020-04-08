@@ -65,6 +65,7 @@ sfml::sfml()
     _window.create(sf::VideoMode(1920, 1080), "My window");
 
     _score_font.loadFromFile("./lib/ressource/sfml/BEBAS.ttf");
+
     _texture_menu.loadFromFile("./lib/ressource/sfml/menu_bg1080p.png");
     _texture_over.loadFromFile("./lib/ressource/sfml/over.png");
     _texture_pause.loadFromFile("./lib/ressource/sfml/menupause.png");
@@ -74,23 +75,26 @@ sfml::sfml()
     _texture_apple.loadFromFile("./lib/ressource/sfml/apple.png");
     _texture_snake_body.loadFromFile("./lib/ressource/sfml/snake_body.png");
     _texture_snake_head.loadFromFile("./lib/ressource/sfml/snake_head.png");
+
     _score_text.setFont(_score_font);
     _currentgamelib_text.setFont(_score_font);
     _gameover_text.setFont(_score_font);
+
     _spritepause.setTexture(_texture_pause);
     _spritemenu.setTexture(_texture_menu);
     _spriteover.setTexture(_texture_over);
     _spritearrow.setTexture(_texture_arrow);
+
     _spritearrow.setPosition(200, 200);
-    _spritearrow.setScale(0.05, 0.05);
+    _currentgamelib_text.setPosition(1484,237);
     _gameover_text.setPosition(1000, 500);
-    _score_text.setCharacterSize(50);
     _score_text.setPosition(1000,0);
-    
     for (int y = 0, a = 0; y != 20; y++)
         for (int x = 0; x != 40; x++, a++)
             _sprite_list[y][x].setPosition((x*40)+140, (y*40)+160);
-    
+
+    _spritearrow.setScale(0.05, 0.05);
+    _score_text.setCharacterSize(50);
 }
 
 sfml::~sfml()
@@ -222,7 +226,6 @@ void sfml::display_menu()
     
     _window.draw(_spritemenu);
     _window.draw(_spritearrow);
-    _currentgamelib_text.setPosition(1484,237);
     _window.draw(_currentgamelib_text);
     
     _window.display();
@@ -231,8 +234,8 @@ void sfml::display_menu()
 input sfml::menu(Core &core)
 {
     input res = menu_event_loop();
-    
-    _currentgamelib_text.setString(core.game_lib_name[core.game_lib_nb].c_str());
+
+    _currentgamelib_text.setString(core.game_lib_name[core.game_lib_nb]);
     display_menu();
     return(res);
 }

@@ -30,7 +30,6 @@ class Snake
         void remove_head();
         void empty(void);
         void move(input face);
-        Snake operator=(const Snake&source);
         Snake_part *head;
         Snake_part *tail;
         int nb_part = 0;
@@ -47,7 +46,7 @@ Snake::Snake()
 
 void Snake::add_head(int x, int y)
 {
-    Snake_part * new_part = new Snake_part(x, y);
+    Snake_part *new_part = new Snake_part(x, y);
     if (new_part == NULL)
         return;
     new_part->next = head;
@@ -170,9 +169,9 @@ void Nibbler::init()
         delete _snake;
     _snake = new Snake();
     snake_facing = right;
-    snake_on_map();
     apple_pos_x = 30;
     apple_pos_y = 10;
+    snake_on_map();
     score = 0;
 }
 
