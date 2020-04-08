@@ -57,7 +57,7 @@ class sfml : public IGraph
         sf::Font _score_font;
         sf::Text _score_text;
         sf::Text _gameover_text;
-        sf::Text _currentlib_text;
+        sf::Text _currentgamelib_text;
 };
 
 sfml::sfml()
@@ -75,7 +75,7 @@ sfml::sfml()
     _texture_snake_body.loadFromFile("./lib/ressource/sfml/snake_body.png");
     _texture_snake_head.loadFromFile("./lib/ressource/sfml/snake_head.png");
     _score_text.setFont(_score_font);
-    _currentlib_text.setFont(_score_font);
+    _currentgamelib_text.setFont(_score_font);
     _gameover_text.setFont(_score_font);
     _spritepause.setTexture(_texture_pause);
     _spritemenu.setTexture(_texture_menu);
@@ -86,9 +86,11 @@ sfml::sfml()
     _gameover_text.setPosition(1000, 500);
     _score_text.setCharacterSize(50);
     _score_text.setPosition(1000,0);
+    
     for (int y = 0, a = 0; y != 20; y++)
         for (int x = 0; x != 40; x++, a++)
             _sprite_list[y][x].setPosition((x*40)+140, (y*40)+160);
+    
 }
 
 sfml::~sfml()
@@ -217,16 +219,20 @@ input sfml::menu_event_loop()
 void sfml::display_menu()
 {
     _window.clear();
-
+    
     _window.draw(_spritemenu);
     _window.draw(_spritearrow);
-
+    _currentgamelib_text.setPosition(1484,237);
+    _window.draw(_currentgamelib_text);
+    
     _window.display();
 }
 
 input sfml::menu(Core &core)
 {
     input res = menu_event_loop();
+    
+    _currentgamelib_text.setString(core.game_lib_name[core.game_lib_nb].c_str());
     display_menu();
     return(res);
 }
