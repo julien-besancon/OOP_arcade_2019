@@ -120,7 +120,6 @@ void sfml::display(int game_map[20][40])
 
 void sfml::display_score(int score)
 {
-    
     _score_text.setString("score :" + std::to_string(score));
     _window.draw(_score_text);
     _window.display();
@@ -132,10 +131,8 @@ std::string sfml::event_game_over()
     while (_window.pollEvent(_event)) {
 
     _window.draw(_gameover_text);
-        if (_event.type == sf::Event::Closed) {
-            end();
+        if (_event.type == sf::Event::Closed)
             exit(0);
-        }
         if (_event.type == _event.TextEntered)
             if (_event.text.unicode < 127 && _event.text.unicode > 32)
                 str += static_cast<char>(_event.text.unicode);
@@ -144,7 +141,8 @@ std::string sfml::event_game_over()
         if (_event.type == sf::Event::KeyPressed && _event.key.code == sf::Keyboard::Return)
             return str;
         if (_event.type == sf::Event::KeyPressed && _event.key.code == sf::Keyboard::BackSpace)
-            str.pop_back();
+            if (str != "")
+                str.pop_back();
     }
     _gameover_text.setString(str);
     _window.draw(_spriteover);

@@ -47,7 +47,7 @@ Snake::Snake()
 
 void Snake::add_head(int x, int y)
 {
-    Snake_part * new_part = new Snake_part(x, y);
+    Snake_part *new_part = new Snake_part(x, y);
     if (new_part == NULL)
         return;
     new_part->next = head;
